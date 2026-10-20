@@ -1,0 +1,1686 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mochi in San Francisco</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #000;
+      --panel: #080808;
+      --line: #292929;
+      --accent: #ff1428;
+      --muted: #a3a3a3;
+      --light: #fff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: #f5f5f5;
+      font: 15px/1.55 system-ui, -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      max-width: 1500px;
+      margin: auto;
+      padding: 44px 40px;
+    }
+
+    a { color: inherit; }
+    button, input, select { font: inherit; }
+    button, select { cursor: pointer; }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      font-size: 11px;
+      font-weight: 700;
+      color: #aaa;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      font-size: clamp(32px, 4vw, 58px);
+      letter-spacing: -.06em;
+      line-height: 1.05;
+      margin: 15px 0;
+      color: #fff;
+    }
+
+    p {
+      margin: 8px 0;
+      color: var(--muted);
+    }
+
+    .trip {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .trip strong {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .stats {
+      display: flex;
+      gap: 40px;
+      margin: 26px 0 32px;
+      padding-bottom: 26px;
+      border-bottom: 1px solid #242424;
+    }
+
+    .stat b {
+      display: block;
+      font-size: 48px;
+      line-height: 1.1;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .stat b::after {
+      content: "";
+      display: block;
+      width: 48px;
+      height: 4px;
+      margin-top: 10px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--accent) 0 8px,
+        transparent 8px 11px
+      );
+    }
+
+    .stat span {
+      display: inline-block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .stat b .num {
+      display: inline;
+      font-size: inherit;
+      margin-top: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 6px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav button {
+      border: 0;
+      background: none;
+      padding: 17px 24px;
+      color: var(--muted);
+      border-bottom: 3px solid transparent;
+      font-weight: 600;
+    }
+
+    nav button[aria-selected="true"] {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: #100204;
+    }
+
+    nav small {
+      margin-left: 10px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 1px 8px;
+      color: var(--accent);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      margin: 24px 0 14px;
+      flex-wrap: wrap;
+    }
+
+    input, select {
+      background: #0b0b0b;
+      color: #eee;
+      border: 1px solid #333;
+      border-radius: 7px;
+      padding: 11px 13px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    input::placeholder { color: var(--muted); }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .description {
+      font-size: 12px;
+      margin-bottom: 20px;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .event {
+      display: grid;
+      grid-template-columns: 105px minmax(240px, 1fr) 200px;
+      gap: 25px;
+      background: var(--panel);
+      border: 1px solid #242424;
+      padding: 23px;
+      border-radius: 5px;
+    }
+
+    .event.high {
+      border-left: 3px solid var(--accent);
+    }
+
+    .date {
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: -.04em;
+      color: var(--accent);
+    }
+
+    .time {
+      font-size: 12px;
+      color: #fff;
+      margin-top: 6px;
+    }
+
+    .title {
+      font-size: 20px;
+      line-height: 1.35;
+      letter-spacing: -.02em;
+      text-decoration: none;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .title:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 11px 0;
+    }
+
+    .chip {
+      font-size: 10px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 3px 7px;
+      color: #aaa;
+    }
+
+    .chip.hot {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+
+    .note {
+      font-size: 13px;
+      color: #bcbcbc;
+      white-space: pre-line;
+    }
+
+    .meta {
+      border-left: 1px solid var(--line);
+      padding-left: 20px;
+      font-size: 12px;
+    }
+
+    .label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 9px;
+      letter-spacing: .14em;
+      color: #aaa;
+      margin-bottom: 4px;
+    }
+
+    .meta section + section { margin-top: 15px; }
+
+    .price {
+      font-size: 14px;
+      color: #fff;
+      font-weight: 650;
+    }
+
+    .status-select {
+      width: 100%;
+      font-size: 12px;
+      font-weight: 650;
+      padding: 9px 7px;
+      border-width: 1px;
+      border-radius: 6px;
+    }
+
+    .status-select option {
+      background: #151111;
+      color: #f5dada;
+    }
+
+    .status-select.approved {
+      background: #10291e;
+      color: #72dea6;
+      border-color: #286646;
+    }
+
+    .status-select.submitted {
+      background: #142537;
+      color: #8ac4ff;
+      border-color: #345876;
+    }
+
+    .status-select.waiting {
+      background: #302510;
+      color: #f0c66c;
+      border-color: #715927;
+    }
+
+    .status-select.not-submitted {
+      background: #292326;
+      color: #c9afb9;
+      border-color: #5a424c;
+    }
+
+    .status-select.declined {
+      background: #351515;
+      color: #ff8585;
+      border-color: #943939;
+    }
+
+    .status-select.decision {
+      background: #281c34;
+      color: #d5a5f4;
+      border-color: #654378;
+    }
+
+    .status-select.unknown {
+      background: #222;
+      color: #ccc;
+      border-color: #555;
+    }
+
+    .save-state {
+      font-size: 10px;
+      min-height: 16px;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    .conflict {
+      margin-top: 13px;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      color: var(--accent);
+      font-size: 12px;
+    }
+
+    .location {
+      margin-top: 15px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      font-size: 12px;
+      color: #fff;
+    }
+
+    .location a {
+      display: inline-block;
+      margin-top: 5px;
+      color: #fff;
+      text-underline-offset: 3px;
+    }
+
+    .location small {
+      display: block;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .num { color: var(--accent); }
+
+    .title .num,
+    .location .num,
+    .time .num {
+      color: #fff;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 60px;
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      margin-top: 32px;
+      padding-top: 18px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    details {
+      margin-top: 18px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    summary {
+      cursor: pointer;
+      color: var(--accent);
+    }
+
+    .guidance {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      padding: 16px 0;
+    }
+
+    .guidance p { margin: 5px 0; }
+
+    #count,
+    #cloud-state {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    #cloud-state { margin-bottom: 12px; }
+
+    @media (max-width: 700px) {
+      main { padding: 25px 17px; }
+      header { display: block; }
+
+      .trip {
+        text-align: left;
+        margin-top: 20px;
+      }
+
+      .stats { gap: 26px; }
+
+      .event {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 18px;
+      }
+
+      .dateblock {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+      }
+
+      .time { margin: 0; }
+
+      .meta {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+        padding: 14px 0 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .meta section + section { margin: 0; }
+      .guidance { grid-template-columns: 1fr; }
+      nav button { padding: 14px 12px; }
+
+      .toolbar select {
+        flex: 1;
+        min-width: 140px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<main>
+  <header>
+    <div>
+      <div class="eyebrow">Mochi · Seed round · SF / Bay Area</div>
+      <h1>Mochi in San Francisco.</h1>
+      <p>Pak’s master event planner — investors, founders & AI builders.</p>
+    </div>
+
+    <div class="trip">
+      <div class="eyebrow">San Francisco · 2026</div>
+      <strong>26 Oct — 10 Nov</strong>
+      <p>All event times are Pacific</p>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat">
+      <b id="total"></b>
+      <span>Events in the workbook</span>
+    </div>
+    <div class="stat">
+      <b id="pakCount"></b>
+      <span>Suggested by Pak</span>
+    </div>
+    <div class="stat">
+      <b id="researchCount"></b>
+      <span>Found through research</span>
+    </div>
+  </div>
+
+  <nav role="tablist" aria-label="Event source">
+    <button
+      role="tab"
+      id="pakTab"
+      aria-controls="panel"
+      aria-selected="true"
+      data-tab="pak"
+    >
+      Pak’s Events <small id="pc"></small>
+    </button>
+
+    <button
+      role="tab"
+      id="researchTab"
+      aria-controls="panel"
+      aria-selected="false"
+      data-tab="research"
+    >
+      Other Events <small id="rc"></small>
+    </button>
+  </nav>
+
+  <div class="toolbar">
+    <input
+      id="search"
+      type="search"
+      aria-label="Search events and notes"
+      placeholder="Search events, companies or notes…"
+    >
+
+    <select id="platform" aria-label="Filter platform">
+      <option value="all">All platforms</option>
+      <option value="luma">Luma</option>
+      <option value="non">Non-Luma</option>
+    </select>
+
+    <select id="cost" aria-label="Filter cost">
+      <option value="all">All prices</option>
+      <option value="free">Free / free option</option>
+      <option value="paid">Paid</option>
+      <option value="unknown">Price unconfirmed</option>
+    </select>
+
+    <select id="sort" aria-label="Sort events">
+      <option value="priority">High value first</option>
+      <option value="date">Date order</option>
+    </select>
+  </div>
+
+  <p class="description">
+    Priority is an editorial ordering for Mochi’s seed raise:
+    investor access and events marked high value in the workbook come first.
+    Event details and application notes are from the supplied spreadsheet.
+  </p>
+
+  <div id="cloud-state" role="status">
+    Connecting to shared statuses…
+  </div>
+
+  <div id="count" aria-live="polite"></div>
+
+  <section
+    id="panel"
+    role="tabpanel"
+    aria-labelledby="pakTab"
+  >
+    <div id="list" class="list"></div>
+  </section>
+
+  <details>
+    <summary>Trip constraints & follow-up</summary>
+
+    <div class="guidance">
+      <div>
+        <p>
+          Oct 27 midday: busy. Oct 28–30 daytime: possibly busy.
+          Keep Oct 30 evening free. Nothing after 5 PM on Nov 10.
+        </p>
+        <p>
+          Ask Pak before buying Startup World Cup or One Way Summit
+          tickets, and before spending over $250.
+        </p>
+      </div>
+
+      <div>
+        <p>
+          Maintain confirmed, waiting on host approval and declined
+          statuses. Pak requested a first update by Friday, Oct 23.
+        </p>
+        <p>
+          Before an event Pak chooses, prepare 3–5 people to meet,
+          investors first. Research events on non-Luma platforms
+          need Pak’s yes/no.
+        </p>
+      </div>
+    </div>
+  </details>
+
+  <footer>
+    Workbook snapshot · Status dropdowns save to the shared planner
+    and refresh every 15 seconds while open. Offline changes retry
+    automatically; keep the page open until synced. If two people
+    edit the same event, the last successful save wins. This does
+    not update event registrations. Links open the event page.
+    Blank schedule flags remain blank; no new clashes are inferred.
+    Prices, promo codes and event claims are carried over from the
+    workbook and have not been reverified. Venue links use published
+    event locations or Pak’s supplied address. City-only maps are
+    explicitly labelled; exact addresses may require registration.
+  </footer>
+</main>
+
+<script>
+const data = [
+  {
+    id: 0,
+    pak: false,
+    date: "27 Oct",
+    day: "2026-10-27",
+    time: "5:30–8:30 PM",
+    name: "Who Controls the Future of AI Coding?",
+    url: "https://luma.com/dtzhn1ux",
+    priority: 2,
+    price: "Free; approval required",
+    status: "Not recorded",
+    note: "",
+    conflict: "",
+    locationKnown: false,
+    location: "San Francisco, CA",
+    locationSource: "https://luma.com/dtzhn1ux",
+    locationNote: "Exact address requires registration"
+  },
+  {
+    id: 1,
+    pak: false,
+    date: "27–29 Oct",
+    day: "2026-10-27",
+    time: "Daytime; sessions TBC",
+    name: "ODSC AI West",
+    url: "https://luma.com/odsc-ul4x",
+    priority: 2,
+    price: "Free expo / paid conference",
+    status: "Waiting approval",
+    note: "Waiting approval",
+    conflict: "Busy 27 Oct midday; possibly busy 28–29 Oct daytime",
+    locationKnown: true,
+    location: "Hyatt Regency Burlingame · 1333 Old Bayshore Hwy, Burlingame, CA 94010",
+    locationSource: "https://luma.com/odsc-ul4x"
+  },
+  {
+    id: 2,
+    pak: false,
+    date: "27–29 Oct",
+    day: "2026-10-27",
+    time: "Daytime; sessions TBC",
+    name: "AI X Leadership Summit",
+    url: "https://luma.com/odsc-zylp",
+    priority: 1,
+    price: "$699 (from workbook notes)",
+    status: "Not recorded",
+    note: "$699 not value for money",
+    conflict: "Busy 27 Oct midday; possibly busy 28–29 Oct daytime",
+    locationKnown: true,
+    location: "Hyatt Regency Burlingame · 1333 Old Bayshore Hwy, Burlingame, CA 94010",
+    locationSource: "https://luma.com/odsc-zylp"
+  },
+  {
+    id: 3,
+    pak: true,
+    date: "28 Oct",
+    day: "2026-10-28",
+    time: "4–6 PM; reception 6–8 PM",
+    name: "First Rays AI Portfolio Day",
+    url: "https://luma.com/k51kc87q",
+    priority: 3,
+    price: "Free; approval required",
+    status: "Waiting approval",
+    note: "Waiting approval",
+    conflict: "Possibly busy during daytime",
+    locationKnown: false,
+    location: "Palo Alto, CA",
+    locationSource: "https://luma.com/k51kc87q",
+    locationNote: "Exact address requires registration"
+  },
+  {
+    id: 4,
+    pak: false,
+    date: "28 Oct",
+    day: "2026-10-28",
+    time: "9 AM; end TBC",
+    name: "Agentic Infrastructure Stack Summit",
+    url: "https://luma.com/69r7rj77",
+    priority: 2,
+    price: "Free; approval required",
+    status: "Waiting approval",
+    note: "Waiting approval",
+    conflict: "Possibly busy during daytime",
+    locationKnown: true,
+    location: "Terra Gallery · 511 Harrison St, San Francisco, CA 94105",
+    locationSource: "https://luma.com/69r7rj77"
+  },
+  {
+    id: 5,
+    pak: false,
+    date: "28 Oct",
+    day: "2026-10-28",
+    time: "6 PM; end TBC",
+    name: "Rootly AI Executive Dinner",
+    url: "https://luma.com/mjgnsagz",
+    priority: 2,
+    price: "Free; approval required",
+    status: "Waiting approval",
+    note: "Waiting approval",
+    conflict: "Possibly busy during daytime",
+    locationKnown: false,
+    location: "San Francisco, CA",
+    locationSource: "https://luma.com/mjgnsagz",
+    locationNote: "Exact address requires registration"
+  },
+  {
+    id: 6,
+    pak: false,
+    date: "28 Oct",
+    day: "2026-10-28",
+    time: "6:00-8:00 PM",
+    name: "Borderless Builders: An Immigrant Founder Mixer",
+    url: "https://luma.com/asan-ifm-1026?lm_source=embed&tk=qYg0Rx",
+    priority: 2,
+    price: "Free; approval required",
+    status: "Waiting approval",
+    note: "Waiting approval",
+    conflict: "Possibly busy during daytime",
+    locationKnown: false,
+    location: "San Francisco, CA",
+    locationSource: "https://luma.com/asan-ifm-1026?lm_source=embed&tk=qYg0Rx",
+    locationNote: "Exact address requires registration"
+  },
+  {
+    id: 7,
+    pak: true,
+    date: "28–29 Oct",
+    day: "2026-10-28",
+    time: "Daytime; timetable TBC",
+    name: "One Way Summit",
+    url: "https://luma.com/onewaysummit2026",
+    priority: 3,
+    price: "Paid event @ $249+ per Pax",
+    status: "Pak to decide",
+    note: "Speakers from top cos like OpenAI, Google, Slack, Duolingo, Mercury, NFX and Y Combinator, alongside founders and VCs.",
+    conflict: "Possibly busy during daytime",
+    locationKnown: true,
+    location: "The Commonwealth Club · 110 The Embarcadero, San Francisco, CA 94105",
+    locationSource: "https://luma.com/onewaysummit2026"
+  },
+  {
+    id: 8,
+    pak: false,
+    date: "28–29 Oct",
+    day: "2026-10-28",
+    time: "Daytime; sessions TBC",
+    name: "GitHub Universe",
+    url: "https://githubuniverse.com/",
+    priority: 1,
+    price: "Paid event @ $1,399",
+    status: "Not recorded",
+    note: "Too expensive but good for developer networking. Top developers, speakers from major companies includging AI. However the price is way too high.",
+    conflict: "",
+    locationKnown: true,
+    location: "Fort Mason Center, San Francisco, CA",
+    locationSource: "https://githubuniverse.com/"
+  },
+  {
+    id: 9,
+    pak: false,
+    date: "29 Oct",
+    day: "2026-10-29",
+    time: "5:30–7 PM; separate dinner 7:30–8:30 PM",
+    name: "Stanford LP Seminar #17",
+    url: "https://luma.com/cpnt8bo5",
+    priority: 3,
+    price: "Free seminar",
+    status: "Waiting approval",
+    note: "Waiting for approval. High value event- Stanford's AI & Investment Series. Lleading foundation, mission-driven institutional, sovereign-wealth, and family-office investors. They also have an evening dinner which can be applied for https://cresca.ai/e/ep_914460d72c202d4a87d21156880abb2f",
+    conflict: "",
+    locationKnown: true,
+    location: "EVGR Building B, Room 144 · 735 Campus Drive, Stanford, CA 94305",
+    locationSource: "https://luma.com/cpnt8bo5"
+  },
+  {
+    id: 10,
+    pak: false,
+    date: "29 Oct",
+    day: "2026-10-29",
+    time: "8–9:30 AM",
+    name: "Agent Builders Breakfast",
+    url: "https://luma.com/xueo91fw",
+    priority: 2,
+    price: "Free; approval required",
+    status: "Waiting approval",
+    note: "Waiting for approval. Good event to network with developers - Conversations and impromptu demos with others navigating the chaos of building AI Agents inside of tech companies.",
+    conflict: "",
+    locationKnown: false,
+    location: "San Francisco, CA",
+    locationSource: "https://luma.com/xueo91fw",
+    locationNote: "Exact address requires registration"
+  },
+  {
+    id: 11,
+    pak: true,
+    date: "29 Oct",
+    day: "2026-10-29",
+    time: "1–7 PM",
+    name: "Agentic AI Day",
+    url: "https://luma.com/cpqlpbpi",
+    priority: 3,
+    price: "Free; approval required",
+    status: "Not submitted",
+    note: "Need to answer - One line product intro, Which category better describes your product?",
+    conflict: "Possibly busy during daytime; explicitly requested registration",
+    locationKnown: false,
+    location: "San Francisco, CA",
+    locationSource: "https://luma.com/cpqlpbpi",
+    locationNote: "Exact address requires registration"
+  },
+  {
+    id: 12,
+    pak: false,
+    date: "29 Oct",
+    day: "2026-10-29",
+    time: "4-5 PM",
+    name: "Fireside Chat with David Rhew, Chief Medical Officer and VP of Healthcare at Microsoft",
+    url: "https://luma.com/sbb-nlq1",
+    priority: 1,
+    price: "Free; approval required",
+    status: "Not recorded",
+    note: "Consider only if the product targets healthcare industry. Stanford event",
+    conflict: "",
+    locationKnown: false,
+    location: "Stanford, CA",
+    locationSource: "https://luma.com/sbb-nlq1",
+    locationNote: "Exact address not published / not verified"
+  },
+  {
+    id: 13,
+    pak: false,
+    date: "30 Oct",
+    day: "2026-10-30",
+    time: "4–11 PM",
+    name: "Night Hack by Founders, Inc.",
+    url: "https://luma.com/nighthack",
+    priority: 3,
+    price: "Free; application required",
+    status: "Not submitted",
+    note: "HIgh value event - needs answers like What will you try to build and demo live by the end of Night Hack?",
+    conflict: "Conflicting with Pak's evening schedule",
+    locationKnown: false,
+    location: "San Francisco, CA",
+    locationSource: "https://luma.com/nighthack",
+    locationNote: "Exact address requires registration"
+  },
+  {
+    id: 14,
+    pak: false,
+    date: "02 Nov",
+    day: "2026-11-02",
+    time: "Afternoon; exact times TBC",
+    name: "Leading Finance in the AI Era",
+    url: "https://luma.com/stripe-a16z-finance-event",
+    priority: 3,
+    price: "Free; approval required",
+    status: "Waiting approval",
+    note: "Waiting for approval. Event by Andreessen Horowitz and Stripe about AI shift, covering pricing, forecasting, unit economics and the evolving role of the CFO. Startup finance focused.",
+    conflict: "",
+    locationKnown: false,
+    location: "San Francisco, CA",
+    locationSource: "https://luma.com/stripe-a16z-finance-event",
+    locationNote: "Exact address not published / not verified"
+  },
+  {
+    id: 15,
+    pak: false,
+    date: "02 Nov",
+    day: "2026-11-02",
+    time: "9:30 AM; end TBC",
+    name: "OSA Con",
+    url: "https://luma.com/eis7567t",
+    priority: 3,
+    price: "Free",
+    status: "Approved",
+    note: "HIgh value event by AWS. Engineers, architects, and builders working at the intersection of open source data infrastructure and AI",
+    conflict: "",
+    locationKnown: true,
+    location: "AWS Builder Loft · 525 Market St, Courtyard Entrance, San Francisco, CA 94105",
+    locationSource: "https://luma.com/eis7567t"
+  },
+  {
+    id: 16,
+    pak: true,
+    date: "02 Nov",
+    day: "2026-11-02",
+    time: "6 PM; end TBC",
+    name: "SF Table Founders Dinner",
+    url: "https://www.garysguide.com/events/lun2skk",
+    priority: 2,
+    price: "$22 per Pax; invite-only",
+    status: "Not submitted",
+    note: "Paid event: Pak to confirm",
+    conflict: "",
+    locationKnown: true,
+    location: "Poesia · 4072 18th St, San Francisco, CA",
+    locationSource: "Pak’s message"
+  },
+  {
+    id: 17,
+    pak: false,
+    date: "04 Nov",
+    day: "2026-11-04",
+    time: "5 PM; end TBC",
+    name: "Robot Learning #02",
+    url: "https://luma.com/robot-learning-world-models-nov4-2026",
+    priority: 2,
+    price: "Free",
+    status: "Waiting approval",
+    note: "Waiting for approval. Relevant to Mochi since we have a small device connected as AI. This event focuses on model's understanding of the physical world translate into reliable manipulation",
+    conflict: "",
+    locationKnown: true,
+    location: "Bright Data — Web Data Loft · 625 2nd St, San Francisco, CA 94107",
+    locationSource: "https://luma.com/robot-learning-world-models-nov4-2026"
+  },
+  {
+    id: 18,
+    pak: true,
+    date: "04 Nov",
+    day: "2026-11-04",
+    time: "5:30 PM; end TBC",
+    name: "Frontier Research Club #30 at SignalFire",
+    url: "https://luma.com/2m4q3u8b",
+    priority: 3,
+    price: "Previously listed free; approval required",
+    status: "Not submitted",
+    note: "Chosen by Pak - needs answers like What are you working on right now? Open to presenting your research at a future session?",
+    conflict: "",
+    locationKnown: false,
+    location: "San Francisco, CA",
+    locationSource: "https://luma.com/2m4q3u8b",
+    locationNote: "SignalFire · exact address requires registration"
+  },
+  {
+    id: 19,
+    pak: true,
+    date: "05 Nov",
+    day: "2026-11-05",
+    time: "TBC",
+    name: "Llama Lounge 27",
+    url: "https://luma.com/llamalounge27",
+    priority: 3,
+    price: "Unconfirmed",
+    status: "Not submitted",
+    note: "Needs info like What are you working on in the AI space? *prodccut website etc.",
+    conflict: "",
+    locationKnown: false,
+    location: "Palo Alto, CA",
+    locationSource: "https://luma.com/llamalounge27",
+    locationNote: "SAP · exact address requires registration"
+  },
+  {
+    id: 20,
+    pak: true,
+    date: "05 Nov",
+    day: "2026-11-05",
+    time: "4–8 PM",
+    name: "Million Dollar Secret",
+    url: "https://luma.com/f2470rg9",
+    priority: 2,
+    price: "Previously listed from $50",
+    status: "Not submitted",
+    note: "Paid event: Pak to confirm",
+    conflict: "",
+    locationKnown: false,
+    location: "Menlo Park, CA",
+    locationSource: "https://luma.com/f2470rg9",
+    locationNote: "Exact address requires registration"
+  },
+  {
+    id: 21,
+    pak: false,
+    date: "05 Nov",
+    day: "2026-11-05",
+    time: "9 AM–8 PM",
+    name: "AI Loves Data",
+    url: "https://luma.com/aldsf26",
+    priority: 3,
+    price: "Free",
+    status: "Submitted",
+    note: "High value event focused on technical side of AI. One-day conference bringing together enterprise AI practitioners, machine learning engineers, architects, and technology leaders who are building the next generation of intelligent systems from some of the biggest comapnies in the world",
+    conflict: "",
+    locationKnown: true,
+    location: "AWS Builder Loft · 525 Market St, San Francisco, CA 94105",
+    locationSource: "https://luma.com/aldsf26"
+  },
+  {
+    id: 22,
+    pak: false,
+    date: "05 Nov",
+    day: "2026-11-05",
+    time: "9 AM–5:30 PM",
+    name: "Voice Agents Forum",
+    url: "https://luma.com/voiceagentssf",
+    priority: 3,
+    price: "$300 if bought before 29th Oct. $400 after that",
+    status: "Not submitted",
+    note: "Paid but High value event focused on technical side of Voice based AI. Useful technical and operational lessons around architecture, evaluation, observability, orchestration, reliability, compliance, and human handoff.",
+    conflict: "",
+    locationKnown: true,
+    location: "Digital Jungle SF · 972 Mission St, San Francisco, CA 94103",
+    locationSource: "https://luma.com/voiceagentssf"
+  },
+  {
+    id: 23,
+    pak: false,
+    date: "05 Nov",
+    day: "2026-11-05",
+    time: "8:30 AM–6:40 PM, including reception",
+    name: "Reverie by LanceDB",
+    url: "https://www.reveriesummit.com/",
+    priority: 3,
+    price: "$200 But found code DET50 which makes it $100",
+    status: "Not submitted",
+    note: "Paid but High value event - One-day summit for AI researchers and engineers building models that reason, create, and dream up new worlds. Speakrs from some of the biggest companies in the world.",
+    conflict: "",
+    locationKnown: true,
+    location: "Contemporary Jewish Museum, San Francisco, CA",
+    locationSource: "https://www.reveriesummit.com/?53839f57_page=3"
+  },
+  {
+    id: 24,
+    pak: true,
+    date: "05 Nov",
+    day: "2026-11-05",
+    time: "6–8 PM",
+    name: "Braintrust × Greylock at Baseten",
+    url: "https://luma.com/baseten-g3n4",
+    priority: 3,
+    price: "Unconfirmed; approval required",
+    status: "Waiting approval",
+    note: "Waiting approval",
+    conflict: "",
+    locationKnown: true,
+    location: "Baseten · 560 Davis St, Suite 250, San Francisco, CA 94111",
+    locationSource: "https://luma.com/baseten-g3n4"
+  },
+  {
+    id: 25,
+    pak: false,
+    date: "5–6 Nov",
+    day: "2026-11-05",
+    time: "Daytime; 5 Nov afterparty; times TBC",
+    name: "BoxWorks Dev Summit",
+    url: "https://luma.com/box-dev-summit-2026",
+    priority: 2,
+    price: "Free passes by application",
+    status: "Waiting approval",
+    note: "Waiting approval. Jenson Huang of Nvidia and other big names speaking. Event has workshops and technical deep dives designed to help you build with Box, AI, and today’s leading AI tools.",
+    conflict: "",
+    locationKnown: true,
+    location: "San Francisco Marriott Marquis · 780 Mission St, San Francisco, CA 94103",
+    locationSource: "https://luma.com/box-dev-summit-2026"
+  },
+  {
+    id: 26,
+    pak: true,
+    date: "06 Nov",
+    day: "2026-11-06",
+    time: "6–8:30 PM",
+    name: "Startup World Cup Finale Party",
+    url: "https://www.eventbrite.com/e/startup-world-cup-grand-finale-2026-tickets-1987093688714?aff=oddtdtcreator&keep_tld=true",
+    priority: 3,
+    price: "$156",
+    status: "Not submitted",
+    note: "High Value event - Go to their networking party $156. Startup worldcup is a global series of conferences and competitions that bring together the top startups, investors, entrepreneurs and tech CEOs around the world. Top investors like Daymond John from Shark Tank and other big names plus nots of founders and deveopers",
+    conflict: "",
+    locationKnown: true,
+    location: "Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102",
+    locationSource: "https://www.startupworldcup.io/networking-party"
+  },
+  {
+    id: 27,
+    pak: false,
+    date: "10 Nov",
+    day: "2026-11-10",
+    time: "8 AM; end TBC",
+    name: "After Tokens",
+    url: "https://luma.com/after-tokens",
+    priority: 2,
+    price: "Free; approval required",
+    status: "Waiting approval",
+    note: "Waiting approval - Event covers how AI businesses track usage, set customer and agent limits, and connect pricing, credits and billing.",
+    conflict: "",
+    locationKnown: true,
+    location: "Terra · 511 Harrison St, San Francisco, CA 94105",
+    locationSource: "https://luma.com/after-tokens"
+  },
+  {
+    id: 28,
+    pak: false,
+    date: "10–12 Nov",
+    day: "2026-11-10",
+    time: "Daily times TBC",
+    name: "AI Engineer Code Summit",
+    url: "https://ai.engineer/code/2026",
+    priority: 1,
+    price: "Unconfirmed",
+    status: "Not submitted",
+    note: "It's a high value event with a workshop on Oct 10. But there is no details about timing on the website yet, just dates so avoid ambiguity for now. If Pak likes the event, we can keep an eye on this and confirm when timing is announced.",
+    conflict: "Nothing after 5 PM on 10 Nov; departs that night",
+    locationKnown: true,
+    location: "Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102",
+    locationSource: "https://ai.engineer/code/2026"
+  }
+];
+
+const SUPABASE_URL =
+  "https://tvispumenkflecdusrut.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_b3-7S8KVe-I2NJRlHZy9fg_Flz6Atje";
+
+const statusOptions = [
+  "Not recorded",
+  "Not submitted",
+  "Submitted",
+  "Waiting approval",
+  "Waitlisted",
+  "Approved",
+  "Declined",
+  "Pak to decide"
+];
+
+const storageKey = "pak-sf-events-status-v1";
+const pendingKey = "pak-sf-events-pending-v1";
+
+const $ = selector => document.querySelector(selector);
+
+let tab = "pak";
+let statusOverrides = {};
+let pending = {};
+let cloudReady = false;
+let syncBusy = false;
+let syncMessage = "Connecting to shared statuses…";
+
+function readStoredObject(key) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || "{}");
+
+    if (
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value)
+    ) {
+      return value;
+    }
+  } catch (error) {
+    console.warn("Browser storage unavailable:", error.message);
+  }
+
+  return {};
+}
+
+statusOverrides = readStoredObject(storageKey);
+pending = readStoredObject(pendingKey);
+
+function esc(value) {
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    character => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[character]
+  );
+}
+
+function linkify(value) {
+  return esc(value).replace(
+    /https:\/\/[^\s<]+/g,
+    url => `
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="${url}"
+      >Related link ↗</a>
+    `
+  );
+}
+
+function persistLocal() {
+  try {
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify(statusOverrides)
+    );
+
+    localStorage.setItem(
+      pendingKey,
+      JSON.stringify(pending)
+    );
+
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+function syncLabel() {
+  const numberPending = Object.keys(pending).length;
+
+  $("#cloud-state").textContent =
+    syncMessage +
+    (
+      numberPending
+        ? " · " + numberPending + " change(s) waiting to save"
+        : ""
+    );
+}
+
+async function requestCloud(query, options = {}) {
+  const response = await fetch(
+    SUPABASE_URL + "/rest/v1/pak_sf_event_status" + query,
+    {
+      ...options,
+      headers: {
+        apikey: SUPABASE_KEY,
+        "Content-Type": "application/json",
+        ...options.headers
+      },
+      signal: AbortSignal.timeout(12000)
+    }
+  );
+
+  if (!response.ok) {
+    const body = await response.text();
+
+    throw new Error(
+      response.status + " " + body.slice(0, 160)
+    );
+  }
+
+  return response.status === 204
+    ? null
+    : response.json();
+}
+
+async function syncCloud() {
+  if (syncBusy) return;
+
+  syncBusy = true;
+
+  try {
+    const pendingSnapshot = { ...pending };
+
+    for (const [url, change] of Object.entries(pendingSnapshot)) {
+      const result = await requestCloud(
+        "?event_url=eq." + encodeURIComponent(url),
+        {
+          method: "PATCH",
+          headers: {
+            Prefer: "return=representation"
+          },
+          body: JSON.stringify({
+            status: change.status
+          })
+        }
+      );
+
+      if (!result?.length) {
+        throw new Error("Event row missing; run setup SQL");
+      }
+
+      if (pending[url]?.token === change.token) {
+        delete pending[url];
+        statusOverrides[url] = result[0].status;
+        persistLocal();
+      }
+    }
+
+    const rows = await requestCloud(
+      "?select=event_url,status"
+    );
+
+    for (const row of rows) {
+      if (
+        !pending[row.event_url] &&
+        statusOptions.includes(row.status)
+      ) {
+        statusOverrides[row.event_url] = row.status;
+      }
+    }
+
+    cloudReady = true;
+    persistLocal();
+    syncMessage = "Shared statuses synced";
+  } catch (error) {
+    syncMessage =
+      "Not synced — check connection and run the setup SQL";
+
+    console.warn("Status sync failed:", error.message);
+  } finally {
+    syncBusy = false;
+    syncLabel();
+    render();
+  }
+}
+
+function currentStatus(event) {
+  return statusOverrides[event.url] || event.status;
+}
+
+function statusClass(status) {
+  return {
+    "Approved": "approved",
+    "Submitted": "submitted",
+    "Waiting approval": "waiting",
+    "Waitlisted": "waiting",
+    "Not submitted": "not-submitted",
+    "Declined": "declined",
+    "Pak to decide": "decision"
+  }[status] || "unknown";
+}
+
+function statusControl(event) {
+  const status = currentStatus(event);
+
+  const options = statusOptions.map(option => `
+    <option
+      value="${esc(option)}"
+      ${option === status ? "selected" : ""}
+    >${esc(option)}</option>
+  `).join("");
+
+  const saveText = pending[event.url]
+    ? "Waiting to save online"
+    : cloudReady
+      ? "Saved to shared planner"
+      : "Connecting…";
+
+  return `
+    <select
+      class="status-select ${statusClass(status)}"
+      data-status-id="${event.id}"
+      aria-label="Status for ${esc(event.name)}"
+    >
+      ${options}
+    </select>
+
+    <div
+      class="save-state"
+      id="save-${event.id}"
+      role="status"
+    >${saveText}</div>
+  `;
+}
+
+function locationControl(event) {
+  const maps =
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(event.location);
+
+  const mapLabel = event.locationKnown
+    ? "Open venue in Google Maps"
+    : "View city on Google Maps — not an event pin";
+
+  const source = event.locationSource.startsWith("https:")
+    ? `
+      · <a
+        href="${esc(event.locationSource)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Location source</a>
+    `
+    : "<small>Address supplied by Pak</small>";
+
+  return `
+    <div class="location">
+      <span class="label">Event location</span>
+      ${esc(event.location)}
+
+      ${
+        event.locationNote
+          ? `<small>${esc(event.locationNote)}</small>`
+          : ""
+      }
+
+      <br>
+
+      <a
+        href="${esc(maps)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >${mapLabel} ↗</a>
+
+      ${source}
+    </div>
+  `;
+}
+
+function highlightNumbers(root) {
+  const walker = document.createTreeWalker(
+    root,
+    NodeFilter.SHOW_TEXT
+  );
+
+  const nodes = [];
+
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+
+    if (
+      /\d/.test(node.nodeValue) &&
+      !node.parentElement.closest(
+        "script,style,select,option,.num"
+      )
+    ) {
+      nodes.push(node);
+    }
+  }
+
+  for (const node of nodes) {
+    const fragment = document.createDocumentFragment();
+
+    node.nodeValue
+      .split(/(\d[\d,.]*(?:%|\+)?)/g)
+      .forEach((part, index) => {
+        if (index % 2) {
+          const span = document.createElement("span");
+          span.className = "num";
+          span.textContent = part;
+          fragment.appendChild(span);
+        } else {
+          fragment.appendChild(
+            document.createTextNode(part)
+          );
+        }
+      });
+
+    node.replaceWith(fragment);
+  }
+}
+
+function priceType(event) {
+  const price = event.price.toLowerCase();
+
+  if (/free/.test(price)) return "free";
+  if (/\$|paid|156/.test(price)) return "paid";
+
+  return "unknown";
+}
+
+function platformFor(event) {
+  return new URL(event.url).hostname === "luma.com"
+    ? "Luma"
+    : "Non-Luma";
+}
+
+$("#total").textContent = data.length;
+
+$("#pakCount").textContent =
+  $("#pc").textContent =
+  data.filter(event => event.pak).length;
+
+$("#researchCount").textContent =
+  $("#rc").textContent =
+  data.filter(event => !event.pak).length;
+
+function render() {
+  const query = $("#search").value.toLowerCase();
+  const platformFilter = $("#platform").value;
+  const costFilter = $("#cost").value;
+
+  const rows = data.filter(event => {
+    const sourceMatches =
+      event.pak === (tab === "pak");
+
+    const searchMatches = (
+      JSON.stringify(event) + " " + currentStatus(event)
+    ).toLowerCase().includes(query);
+
+    const platform = platformFor(event);
+
+    const platformMatches =
+      platformFilter === "all" ||
+      (
+        platformFilter === "luma"
+          ? platform === "Luma"
+          : platform === "Non-Luma"
+      );
+
+    const costMatches =
+      costFilter === "all" ||
+      priceType(event) === costFilter;
+
+    return (
+      sourceMatches &&
+      searchMatches &&
+      platformMatches &&
+      costMatches
+    );
+  });
+
+  rows.sort((a, b) =>
+    (
+      $("#sort").value === "priority"
+        ? b.priority - a.priority
+        : 0
+    ) ||
+    a.day.localeCompare(b.day) ||
+    a.id - b.id
+  );
+
+  $("#count").textContent =
+    `${rows.length} event${rows.length === 1 ? "" : "s"} · ` +
+    (tab === "pak" ? "Suggested by Pak" : "Via research");
+
+  $("#list").innerHTML = rows.length
+    ? rows.map(event => {
+      const platform = platformFor(event);
+
+      return `
+        <article class="event ${event.priority === 3 ? "high" : ""}">
+          <div class="dateblock">
+            <div class="date">${esc(event.date)}</div>
+            <div class="time">
+              ${esc(event.time)}<br>Pacific
+            </div>
+          </div>
+
+          <div>
+            <a
+              class="title"
+              href="${esc(event.url)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >${esc(event.name)} ↗</a>
+
+            <div class="chips">
+              ${
+                event.priority === 3
+                  ? '<span class="chip hot">High value</span>'
+                  : ""
+              }
+
+              <span class="chip">${platform}</span>
+
+              <span class="chip">
+                ${event.pak ? "Via Pak" : "Via research"}
+              </span>
+            </div>
+
+            ${
+              event.note
+                ? `<div class="note">${linkify(event.note)}</div>`
+                : ""
+            }
+
+            ${locationControl(event)}
+
+            ${
+              event.conflict
+                ? `
+                  <div class="conflict">
+                    <span class="label">
+                      Conflict with Pak’s schedule
+                    </span>
+                    ${esc(event.conflict)}
+                  </div>
+                `
+                : ""
+            }
+          </div>
+
+          <div class="meta">
+            <section>
+              <span class="label">Ticket price · workbook</span>
+              <span class="price">${esc(event.price)}</span>
+            </section>
+
+            <section>
+              <span class="label">Application / status</span>
+              ${statusControl(event)}
+            </section>
+
+            ${
+              !event.pak && platform === "Non-Luma"
+                ? `
+                  <section>
+                    <span class="label">Decision</span>
+                    Send to Pak for yes / no
+                  </section>
+                `
+                : ""
+            }
+          </div>
+        </article>
+      `;
+    }).join("")
+    : '<div class="empty">No events match these filters.</div>';
+
+  highlightNumbers($("#list"));
+  highlightNumbers($("#count"));
+}
+
+$("#list").addEventListener("change", browserEvent => {
+  const control = browserEvent.target;
+
+  if (!control.matches("[data-status-id]")) return;
+
+  const event = data.find(
+    item => item.id === Number(control.dataset.statusId)
+  );
+
+  if (!event || !statusOptions.includes(control.value)) return;
+
+  statusOverrides[event.url] = control.value;
+
+  pending[event.url] = {
+    status: control.value,
+    token: Date.now() + "-" + Math.random()
+  };
+
+  const stored = persistLocal();
+
+  control.className =
+    "status-select " + statusClass(control.value);
+
+  $("#save-" + event.id).textContent = stored
+    ? "Waiting to save online"
+    : "Keep this page open until saved online";
+
+  syncMessage = "Saving changes…";
+  syncLabel();
+  syncCloud();
+});
+
+document.querySelectorAll("[data-tab]").forEach(button => {
+  button.addEventListener("click", () => {
+    tab = button.dataset.tab;
+
+    document.querySelectorAll("[data-tab]").forEach(item => {
+      item.setAttribute(
+        "aria-selected",
+        String(item === button)
+      );
+    });
+
+    $("#panel").setAttribute(
+      "aria-labelledby",
+      button.id
+    );
+
+    render();
+  });
+});
+
+["search", "platform", "cost", "sort"].forEach(id => {
+  $("#" + id).addEventListener(
+    id === "search" ? "input" : "change",
+    render
+  );
+});
+
+render();
+highlightNumbers(document.querySelector("main"));
+syncCloud();
+
+setInterval(syncCloud, 15000);
+
+window.addEventListener("online", syncCloud);
+
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) syncCloud();
+});
+</script>
+</body>
+</html>
