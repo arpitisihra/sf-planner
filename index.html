@@ -120,6 +120,7 @@ p {
 
 nav {
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
   border-bottom: 1px solid var(--line);
 }
@@ -397,9 +398,7 @@ input::placeholder { color: var(--muted); }
   color: #fff;
 }
 
-.demo-confirm .num {
-  color: #72dea6;
-}
+.demo-confirm .num { color: #72dea6; }
 
 .empty {
   text-align: center;
@@ -535,6 +534,14 @@ summary {
     aria-selected="false"
     data-tab="research"
   >Other Events <small id="rc"></small></button>
+
+  <button
+    role="tab"
+    id="approvedTab"
+    aria-controls="panel"
+    aria-selected="false"
+    data-tab="approved"
+  >All approved events <small id="ac"></small></button>
 </nav>
 
 <div class="toolbar">
@@ -565,9 +572,9 @@ summary {
 </div>
 
 <p class="description">
-  Pak’s confirmed choices appear first. Within each section, high-value
-  events are prioritised for Mochi’s seed raise. Attendance decisions
-  and registration approval statuses are separate.
+  Pak’s confirmed choices appear first in his tab. All approved events
+  shows events from either source whose application status is Approved.
+  Attendance decisions and registration approval statuses are separate.
 </p>
 
 <div id="cloud-state" role="status">Connecting to shared statuses…</div>
@@ -644,7 +651,7 @@ locationKnown, locationSource
 [18,"04 Nov","2026-11-04","5:30 PM; end TBC","Frontier Research Club #30 at SignalFire",1,"https://luma.com/2m4q3u8b",3,"Previously listed free; approval required","Waiting approval","Waiting for approval.","","San Francisco, CA","SignalFire · exact address requires registration",false,"https://luma.com/2m4q3u8b"],
 [19,"05 Nov","2026-11-05","TBC","Llama Lounge 27",1,"https://luma.com/llamalounge27",3,"Unconfirmed","Waiting approval","Waiting for approval.","","Palo Alto, CA","SAP · exact address requires registration",false,"https://luma.com/llamalounge27"],
 [20,"05 Nov","2026-11-05","4–8 PM","Million Dollar Secret",1,"https://luma.com/f2470rg9",2,"$50","Pak to decide","Paid event: Pak to confirm.","","Menlo Park, CA","Exact address requires registration",false,"https://luma.com/f2470rg9"],
-[21,"05 Nov","2026-11-05","9 AM–8 PM","AI Loves Data",0,"https://luma.com/aldsf26",3,"Free","Submitted","High value event focused on the technical side of AI. One-day conference bringing together enterprise AI practitioners, machine learning engineers, architects, and technology leaders who are building the next generation of intelligent systems from some of the biggest companies in the world.","","AWS Builder Loft · 525 Market St, San Francisco, CA 94105","",true,"https://luma.com/aldsf26"],
+[21,"05 Nov","2026-11-05","9 AM–8 PM","AI Loves Data",0,"https://luma.com/aldsf26",3,"Free","Approved","Approved - High value event focused on the technical side of AI. One-day conference bringing together enterprise AI practitioners, machine learning engineers, architects, and technology leaders who are building the next generation of intelligent systems from some of the biggest companies in the world.","","AWS Builder Loft · 525 Market St, San Francisco, CA 94105","",true,"https://luma.com/aldsf26"],
 [22,"05 Nov","2026-11-05","9 AM–5:30 PM","Voice Agents Forum",0,"https://luma.com/voiceagentssf",3,"$300 if bought before 29th Oct. $400 after that","Not submitted","Paid but high value event focused on the technical side of voice-based AI. Useful technical and operational lessons around architecture, evaluation, observability, orchestration, reliability, compliance, and human handoff.","","Digital Jungle SF · 972 Mission St, San Francisco, CA 94103","",true,"https://luma.com/voiceagentssf"],
 [23,"05 Nov","2026-11-05","8:30 AM–6:40 PM, including reception","Reverie by LanceDB",0,"https://www.reveriesummit.com/",3,"$200; workbook code DET50 brings it to $100","Not submitted","Paid but high value event - one-day summit for AI researchers and engineers building models that reason, create, and dream up new worlds. Speakers from some of the biggest companies in the world.","","Contemporary Jewish Museum, San Francisco, CA","",true,"https://www.reveriesummit.com/?53839f57_page=3"],
 [24,"05 Nov","2026-11-05","6–8 PM","Braintrust × Greylock at Baseten",1,"https://luma.com/baseten-g3n4",3,"Unconfirmed; approval required","Waiting approval","Waiting approval.","","Baseten · 560 Davis St, Suite 250, San Francisco, CA 94111","",true,"https://luma.com/baseten-g3n4"],
@@ -1017,17 +1024,24 @@ function platformFor(event) {
     : "Non-Luma";
 }
 
-$("#total").textContent = data.length;
+function updateTabCounts() {
+  $("#total").textContent = data.length;
 
-$("#pakCount").textContent =
-  $("#pc").textContent =
-  data.filter(event => event.pak).length;
+  $("#pakCount").textContent =
+    $("#pc").textContent =
+    data.filter(event => event.pak).length;
 
-$("#researchCount").textContent =
-  $("#rc").textContent =
-  data.filter(event => !event.pak).length;
+  $("#researchCount").textContent =
+    $("#rc").textContent =
+    data.filter(event => !event.pak).length;
+
+  $("#ac").textContent =
+    data.filter(event => currentStatus(event) === "Approved").length;
+}
 
 function render() {
+  updateTabCounts();
+
   const query = $("#search").value.toLowerCase();
   const platformFilter = $("#platform").value;
   const costFilter = $("#cost").value;
@@ -1035,8 +1049,12 @@ function render() {
   const rows = data.filter(event => {
     const platform = platformFor(event);
 
+    const matchesTab = tab === "approved"
+      ? currentStatus(event) === "Approved"
+      : event.pak === (tab === "pak");
+
     return (
-      event.pak === (tab === "pak") &&
+      matchesTab &&
       (JSON.stringify(event) + " " + currentStatus(event))
         .toLowerCase().includes(query) &&
       (
@@ -1070,9 +1088,14 @@ function render() {
     a.id - b.id
   );
 
+  const tabLabel = tab === "approved"
+    ? "All approved events"
+    : tab === "pak"
+      ? "Suggested by Pak"
+      : "Via research";
+
   $("#count").textContent =
-    `${rows.length} event${rows.length === 1 ? "" : "s"} · ` +
-    (tab === "pak" ? "Suggested by Pak" : "Via research");
+    `${rows.length} event${rows.length === 1 ? "" : "s"} · ${tabLabel}`;
 
   let previousGroup = "";
 
@@ -1184,7 +1207,7 @@ function render() {
         </article>
       `;
     }).join("")
-    : '<div class="empty">No events match these filters.</div>';
+    : '<div class="empty">No events match this tab and these filters.</div>';
 
   highlightNumbers($("#list"));
   highlightNumbers($("#count"));
@@ -1210,15 +1233,12 @@ $("#list").addEventListener("change", browserEvent => {
 
   const stored = persistLocal();
 
-  control.className =
-    "status-select " + statusClass(control.value);
+  syncMessage = stored
+    ? "Saving changes…"
+    : "Saving online — keep this page open until synced";
 
-  $("#save-" + event.id).textContent = stored
-    ? "Waiting to save online"
-    : "Keep this page open until saved online";
-
-  syncMessage = "Saving changes…";
   syncLabel();
+  render();
   syncCloud();
 });
 
