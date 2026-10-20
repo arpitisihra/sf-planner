@@ -269,6 +269,11 @@ input::placeholder { color: var(--muted); }
   white-space: pre-line;
 }
 
+.demo-confirm {
+  color: #72dea6;
+  font-weight: 750;
+}
+
 .meta {
   border-left: 1px solid var(--line);
   padding-left: 20px;
@@ -390,6 +395,10 @@ input::placeholder { color: var(--muted); }
 .location .num,
 .time .num {
   color: #fff;
+}
+
+.demo-confirm .num {
+  color: #72dea6;
 }
 
 .empty {
@@ -732,16 +741,21 @@ function esc(value) {
 }
 
 function linkify(value) {
-  return esc(value).replace(
-    /https:\/\/[^\s<]+/g,
-    url => `
-      <a
-        href="${url}"
-        target="_blank"
-        rel="noopener noreferrer"
-      >Related link ↗</a>
-    `
-  );
+  return esc(value)
+    .replace(
+      /Confirm if Pak wants to demo the product\./g,
+      '<strong class="demo-confirm">Confirm if Pak wants to demo the product.</strong>'
+    )
+    .replace(
+      /https:\/\/[^\s<]+/g,
+      url => `
+        <a
+          href="${url}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Related link ↗</a>
+      `
+    );
 }
 
 function persistLocal() {
