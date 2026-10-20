@@ -4,90 +4,481 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mochi in San Francisco</title>
+
 <style>
-:root{color-scheme:dark;--bg:#000;--panel:#080808;--line:#292929;--accent:#ff1428;--muted:#a3a3a3}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:#f5f5f5;font:15px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:1500px;margin:auto;padding:44px 40px}
-a{color:inherit}
-button,input,select{font:inherit}
-button,select{cursor:pointer}
-.eyebrow{text-transform:uppercase;letter-spacing:.2em;font-size:11px;font-weight:700;color:#aaa}
-header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding-bottom:32px;border-bottom:1px solid var(--line)}
-h1{font-size:clamp(32px,4vw,58px);letter-spacing:-.06em;line-height:1.05;margin:15px 0;color:#fff}
-p{margin:8px 0;color:var(--muted)}
-.trip{text-align:right;white-space:nowrap}
-.trip strong{font-size:22px;font-weight:500;color:var(--accent)}
-.stats{display:flex;gap:40px;margin:26px 0 32px;padding-bottom:26px;border-bottom:1px solid #242424}
-.stat b{display:block;font-size:48px;line-height:1.1;font-weight:600;color:var(--accent)}
-.stat b:after{content:"";display:block;width:48px;height:4px;margin-top:10px;background:repeating-linear-gradient(90deg,var(--accent) 0 8px,transparent 8px 11px)}
-.stat span{display:inline-block;margin-top:8px;color:var(--muted);font-size:12px}
-.stat b .num{display:inline;font-size:inherit;margin-top:0}
-nav{display:flex;gap:6px;border-bottom:1px solid var(--line)}
-nav button{border:0;background:none;padding:17px 24px;color:var(--muted);border-bottom:3px solid transparent;font-weight:600}
-nav button[aria-selected=true]{color:var(--accent);border-color:var(--accent);background:#100204}
-nav small{margin-left:10px;border:1px solid var(--line);border-radius:30px;padding:1px 8px;color:var(--accent)}
-.toolbar{display:flex;gap:12px;margin:24px 0 14px;flex-wrap:wrap}
-input,select{background:#0b0b0b;color:#eee;border:1px solid #333;border-radius:7px;padding:11px 13px}
-input{flex:1;min-width:220px}
-input::placeholder{color:var(--muted)}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.description{font-size:12px;margin-bottom:20px}
-.list{display:grid;gap:12px;margin-top:14px}
-.event{display:grid;grid-template-columns:105px minmax(240px,1fr) 200px;gap:25px;background:var(--panel);border:1px solid #242424;padding:23px;border-radius:5px}
-.event.high{border-left:3px solid var(--accent)}
-.date{font-size:21px;font-weight:600;letter-spacing:-.04em;color:var(--accent)}
-.time{font-size:12px;color:#fff;margin-top:6px}
-.title{font-size:20px;line-height:1.35;letter-spacing:-.02em;text-decoration:none;font-weight:600;color:#fff}
-.title:hover{text-decoration:underline}
-.chips{display:flex;flex-wrap:wrap;gap:7px;margin:11px 0}
-.chip{font-size:10px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:4px;padding:3px 7px;color:#aaa}
-.chip.hot{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:700}
-.note{font-size:13px;color:#bcbcbc;white-space:pre-line}
-.meta{border-left:1px solid var(--line);padding-left:20px;font-size:12px}
-.label{display:block;text-transform:uppercase;font-size:9px;letter-spacing:.14em;color:#aaa;margin-bottom:4px}
-.meta section+section{margin-top:15px}
-.price{font-size:14px;color:#fff;font-weight:650}
-.status-select{width:100%;font-size:12px;font-weight:650;padding:9px 7px;border-width:1px;border-radius:6px}
-.status-select option{background:#151111;color:#f5dada}
-.status-select.approved{background:#10291e;color:#72dea6;border-color:#286646}
-.status-select.submitted{background:#142537;color:#8ac4ff;border-color:#345876}
-.status-select.waiting{background:#302510;color:#f0c66c;border-color:#715927}
-.status-select.not-submitted{background:#292326;color:#c9afb9;border-color:#5a424c}
-.status-select.declined{background:#351515;color:#ff8585;border-color:#943939}
-.status-select.decision{background:#281c34;color:#d5a5f4;border-color:#654378}
-.status-select.unknown{background:#222;color:#ccc;border-color:#555}
-.save-state{font-size:10px;min-height:16px;color:var(--muted);margin-top:5px}
-.conflict{margin-top:13px;border-top:1px solid var(--line);padding-top:10px;color:var(--accent);font-size:12px}
-.location{margin-top:15px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;color:#fff}
-.location a{display:inline-block;margin-top:5px;color:#fff;text-underline-offset:3px}
-.location small{display:block;color:var(--muted);margin-top:3px}
-.num{color:var(--accent)}
-.title .num,.location .num,.time .num{color:#fff}
-.empty{text-align:center;padding:60px;color:var(--muted)}
-footer{border-top:1px solid var(--line);margin-top:32px;padding-top:18px;font-size:11px;color:var(--muted)}
-details{margin-top:18px;font-size:12px;color:var(--muted)}
-summary{cursor:pointer;color:var(--accent)}
-.guidance{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:16px 0}
-.guidance p{margin:5px 0}
-#count,#cloud-state{font-size:12px;color:var(--muted)}
-#cloud-state{margin-bottom:12px}
-@media(max-width:700px){
-main{padding:25px 17px}
-header{display:block}
-.trip{text-align:left;margin-top:20px}
-.stats{gap:26px}
-.event{grid-template-columns:1fr;gap:12px;padding:18px}
-.dateblock{display:flex;gap:15px;align-items:center}
-.time{margin:0}
-.meta{border-left:0;border-top:1px solid var(--line);padding:14px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.meta section+section{margin:0}
-.guidance{grid-template-columns:1fr}
-nav button{padding:14px 12px}
-.toolbar select{flex:1;min-width:140px}
+:root {
+  color-scheme: dark;
+  --bg: #000;
+  --panel: #080808;
+  --line: #292929;
+  --accent: #ff1428;
+  --muted: #a3a3a3;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: #f5f5f5;
+  font: 15px/1.55 system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+main {
+  max-width: 1500px;
+  margin: auto;
+  padding: 44px 40px;
+}
+
+a { color: inherit; }
+button, input, select { font: inherit; }
+button, select { cursor: pointer; }
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  font-size: 11px;
+  font-weight: 700;
+  color: #aaa;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--line);
+}
+
+h1 {
+  font-size: clamp(32px, 4vw, 58px);
+  letter-spacing: -.06em;
+  line-height: 1.05;
+  margin: 15px 0;
+  color: #fff;
+}
+
+p {
+  margin: 8px 0;
+  color: var(--muted);
+}
+
+.trip {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.trip strong {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.stats {
+  display: flex;
+  gap: 40px;
+  margin: 26px 0 32px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid #242424;
+}
+
+.stat b {
+  display: block;
+  font-size: 48px;
+  line-height: 1.1;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.stat b::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 4px;
+  margin-top: 10px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0 8px,
+    transparent 8px 11px
+  );
+}
+
+.stat span {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stat b .num {
+  display: inline;
+  font-size: inherit;
+  margin-top: 0;
+}
+
+nav {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--line);
+}
+
+nav button {
+  border: 0;
+  background: none;
+  padding: 17px 24px;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+  font-weight: 600;
+}
+
+nav button[aria-selected="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: #100204;
+}
+
+nav small {
+  margin-left: 10px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  padding: 1px 8px;
+  color: var(--accent);
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  margin: 24px 0 14px;
+  flex-wrap: wrap;
+}
+
+input, select {
+  background: #0b0b0b;
+  color: #eee;
+  border: 1px solid #333;
+  border-radius: 7px;
+  padding: 11px 13px;
+}
+
+input {
+  flex: 1;
+  min-width: 220px;
+}
+
+input::placeholder { color: var(--muted); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.description {
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.section-heading {
+  margin: 24px 0 2px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 21px;
+  letter-spacing: -.02em;
+  color: #fff;
+}
+
+.section-heading:first-child { margin-top: 4px; }
+
+.section-heading small {
+  margin-left: 10px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.event {
+  display: grid;
+  grid-template-columns: 105px minmax(240px, 1fr) 200px;
+  gap: 25px;
+  background: var(--panel);
+  border: 1px solid #242424;
+  padding: 23px;
+  border-radius: 5px;
+}
+
+.event.high { border-left: 3px solid var(--accent); }
+
+.date {
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -.04em;
+  color: var(--accent);
+}
+
+.time {
+  font-size: 12px;
+  color: #fff;
+  margin-top: 6px;
+}
+
+.title {
+  font-size: 20px;
+  line-height: 1.35;
+  letter-spacing: -.02em;
+  text-decoration: none;
+  font-weight: 600;
+  color: #fff;
+}
+
+.title:hover { text-decoration: underline; }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 11px 0;
+}
+
+.chip {
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 3px 7px;
+  color: #aaa;
+}
+
+.chip.hot {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  font-weight: 700;
+}
+
+.note {
+  font-size: 13px;
+  color: #bcbcbc;
+  white-space: pre-line;
+}
+
+.meta {
+  border-left: 1px solid var(--line);
+  padding-left: 20px;
+  font-size: 12px;
+}
+
+.label {
+  display: block;
+  text-transform: uppercase;
+  font-size: 9px;
+  letter-spacing: .14em;
+  color: #aaa;
+  margin-bottom: 4px;
+}
+
+.meta section + section { margin-top: 15px; }
+
+.price {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 650;
+}
+
+.status-select {
+  width: 100%;
+  font-size: 12px;
+  font-weight: 650;
+  padding: 9px 7px;
+  border-width: 1px;
+  border-radius: 6px;
+}
+
+.status-select option {
+  background: #151111;
+  color: #f5dada;
+}
+
+.status-select.approved {
+  background: #10291e;
+  color: #72dea6;
+  border-color: #286646;
+}
+
+.status-select.submitted {
+  background: #142537;
+  color: #8ac4ff;
+  border-color: #345876;
+}
+
+.status-select.waiting {
+  background: #302510;
+  color: #f0c66c;
+  border-color: #715927;
+}
+
+.status-select.not-submitted {
+  background: #292326;
+  color: #c9afb9;
+  border-color: #5a424c;
+}
+
+.status-select.declined {
+  background: #351515;
+  color: #ff8585;
+  border-color: #943939;
+}
+
+.status-select.decision {
+  background: #281c34;
+  color: #d5a5f4;
+  border-color: #654378;
+}
+
+.status-select.unknown {
+  background: #222;
+  color: #ccc;
+  border-color: #555;
+}
+
+.save-state {
+  font-size: 10px;
+  min-height: 16px;
+  color: var(--muted);
+  margin-top: 5px;
+}
+
+.conflict {
+  margin-top: 13px;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.location {
+  margin-top: 15px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+  color: #fff;
+}
+
+.location a {
+  display: inline-block;
+  margin-top: 5px;
+  color: #fff;
+  text-underline-offset: 3px;
+}
+
+.location small {
+  display: block;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.num { color: var(--accent); }
+
+.title .num,
+.location .num,
+.time .num {
+  color: #fff;
+}
+
+.empty {
+  text-align: center;
+  padding: 60px;
+  color: var(--muted);
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  margin-top: 32px;
+  padding-top: 18px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+details {
+  margin-top: 18px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+summary {
+  cursor: pointer;
+  color: var(--accent);
+}
+
+.guidance {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 16px 0;
+}
+
+.guidance p { margin: 5px 0; }
+
+#count, #cloud-state {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+#cloud-state { margin-bottom: 12px; }
+
+@media (max-width: 700px) {
+  main { padding: 25px 17px; }
+  header { display: block; }
+
+  .trip {
+    text-align: left;
+    margin-top: 20px;
+  }
+
+  .stats { gap: 26px; }
+
+  .event {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 18px;
+  }
+
+  .dateblock {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .time { margin: 0; }
+
+  .meta {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: 14px 0 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .meta section + section { margin: 0; }
+  .guidance { grid-template-columns: 1fr; }
+  nav button { padding: 14px 12px; }
+
+  .toolbar select {
+    flex: 1;
+    min-width: 140px;
+  }
 }
 </style>
 </head>
+
 <body>
 <main>
 <header>
@@ -96,6 +487,7 @@ nav button{padding:14px 12px}
     <h1>Mochi in San Francisco.</h1>
     <p>Pak’s master event planner — investors, founders & AI builders.</p>
   </div>
+
   <div class="trip">
     <div class="eyebrow">San Francisco · 2026</div>
     <strong>26 Oct — 10 Nov</strong>
@@ -104,33 +496,59 @@ nav button{padding:14px 12px}
 </header>
 
 <div class="stats">
-  <div class="stat"><b id="total"></b><span>Events in the workbook</span></div>
-  <div class="stat"><b id="pakCount"></b><span>Suggested by Pak</span></div>
-  <div class="stat"><b id="researchCount"></b><span>Found through research</span></div>
+  <div class="stat">
+    <b id="total"></b>
+    <span>Events in the workbook</span>
+  </div>
+  <div class="stat">
+    <b id="pakCount"></b>
+    <span>Suggested by Pak</span>
+  </div>
+  <div class="stat">
+    <b id="researchCount"></b>
+    <span>Found through research</span>
+  </div>
 </div>
 
 <nav role="tablist" aria-label="Event source">
-  <button role="tab" id="pakTab" aria-controls="panel" aria-selected="true" data-tab="pak">
-    Pak’s Events <small id="pc"></small>
-  </button>
-  <button role="tab" id="researchTab" aria-controls="panel" aria-selected="false" data-tab="research">
-    Other Events <small id="rc"></small>
-  </button>
+  <button
+    role="tab"
+    id="pakTab"
+    aria-controls="panel"
+    aria-selected="true"
+    data-tab="pak"
+  >Pak’s Events <small id="pc"></small></button>
+
+  <button
+    role="tab"
+    id="researchTab"
+    aria-controls="panel"
+    aria-selected="false"
+    data-tab="research"
+  >Other Events <small id="rc"></small></button>
 </nav>
 
 <div class="toolbar">
-  <input id="search" type="search" aria-label="Search events and notes" placeholder="Search events, companies or notes…">
+  <input
+    id="search"
+    type="search"
+    aria-label="Search events and notes"
+    placeholder="Search events, companies or notes…"
+  >
+
   <select id="platform" aria-label="Filter platform">
     <option value="all">All platforms</option>
     <option value="luma">Luma</option>
     <option value="non">Non-Luma</option>
   </select>
+
   <select id="cost" aria-label="Filter cost">
     <option value="all">All prices</option>
     <option value="free">Free / free option</option>
     <option value="paid">Paid</option>
     <option value="unknown">Price unconfirmed</option>
   </select>
+
   <select id="sort" aria-label="Sort events">
     <option value="priority">High value first</option>
     <option value="date">Date order</option>
@@ -138,96 +556,128 @@ nav button{padding:14px 12px}
 </div>
 
 <p class="description">
-Priority is an editorial ordering for Mochi’s seed raise: investor access and events marked high value in the workbook come first. Event details and application notes are from the supplied spreadsheet.
+  Pak’s confirmed choices appear first. Within each section, high-value
+  events are prioritised for Mochi’s seed raise. Attendance decisions
+  and registration approval statuses are separate.
 </p>
 
 <div id="cloud-state" role="status">Connecting to shared statuses…</div>
 <div id="count" aria-live="polite"></div>
+
 <section id="panel" role="tabpanel" aria-labelledby="pakTab">
   <div id="list" class="list"></div>
 </section>
 
 <details>
-<summary>Trip constraints & follow-up</summary>
-<div class="guidance">
-  <div>
-    <p>Oct 27 midday: busy. Oct 28–30 daytime: possibly busy. Keep Oct 30 evening free. Nothing after 5 PM on Nov 10.</p>
-    <p>Ask Pak before buying Startup World Cup or One Way Summit tickets, and before spending over $250.</p>
+  <summary>Trip constraints & follow-up</summary>
+
+  <div class="guidance">
+    <div>
+      <p>
+        Oct 27 midday: busy. Oct 28–30 daytime: possibly busy.
+        Keep Oct 30 evening free. Nothing after 5 PM on Nov 10.
+      </p>
+      <p>
+        Ask Pak before buying Startup World Cup or One Way Summit
+        tickets, and before spending over $250.
+      </p>
+    </div>
+    <div>
+      <p>
+        Maintain confirmed, waiting on host approval and declined
+        statuses. Pak requested a first update by Friday, Oct 23.
+      </p>
+      <p>
+        Before an event Pak chooses, prepare 3–5 people to meet,
+        investors first. Research events on non-Luma platforms
+        need Pak’s yes/no.
+      </p>
+    </div>
   </div>
-  <div>
-    <p>Maintain confirmed, waiting on host approval and declined statuses. Pak requested a first update by Friday, Oct 23.</p>
-    <p>Before an event Pak chooses, prepare 3–5 people to meet, investors first. Research events on non-Luma platforms need Pak’s yes/no.</p>
-  </div>
-</div>
 </details>
 
 <footer>
-Workbook snapshot · Status dropdowns save to the shared planner and refresh every 15 seconds while open. Offline changes retry automatically; keep the page open until synced. If two people edit the same event, the last successful save wins. This does not update event registrations. Blank schedule flags remain blank; no new clashes are inferred. Prices, promo codes and event claims come from the workbook and have not been reverified. City-only maps are explicitly labelled.
+  Status dropdowns save to the shared planner and refresh every
+  15 seconds while open. Offline changes retry automatically;
+  keep the page open until synced. If two people edit the same
+  event, the last successful save wins. Anyone with this planner
+  can update statuses. This does not update event registrations.
+  Prices, promo codes and event notes come from the workbook
+  and have not been reverified. City-only maps are clearly labelled.
 </footer>
 </main>
 
 <!--
-Each event row:
-[id,date,sortDate,time,name,viaPak,url,priority,price,status,
- notes,conflict,location,locationNote,locationKnown,locationSource]
+Event row fields:
+id, date, sortDate, time, name, viaPak, url, priority, price,
+status, notes, conflict, location, locationNote,
+locationKnown, locationSource
 -->
 <script id="event-data" type="application/json">
 [
-[1,"27–29 Oct","2026-10-27","Daytime; sessions TBC","ODSC AI West",0,"https://luma.com/odsc-ul4x",2,"Free expo / paid conference","Approved","Aprroved","Busy 27 Oct midday; possibly busy 28–29 Oct daytime","Hyatt Regency Burlingame · 1333 Old Bayshore Hwy, Burlingame, CA 94010","",true,"https://luma.com/odsc-ul4x"],
+[1,"27–29 Oct","2026-10-27","Daytime; sessions TBC","ODSC AI West",0,"https://luma.com/odsc-ul4x",2,"Free expo / paid conference","Approved","Approved","Busy 27 Oct midday; possibly busy 28–29 Oct daytime","Hyatt Regency Burlingame · 1333 Old Bayshore Hwy, Burlingame, CA 94010","",true,"https://luma.com/odsc-ul4x"],
 [2,"27–29 Oct","2026-10-27","Daytime; sessions TBC","AI X Leadership Summit",0,"https://luma.com/odsc-zylp",1,"$699 (from workbook notes)","Pak to decide","Pak to decide. $699 not value for money","Busy 27 Oct midday; possibly busy 28–29 Oct daytime","Hyatt Regency Burlingame · 1333 Old Bayshore Hwy, Burlingame, CA 94010","",true,"https://luma.com/odsc-zylp"],
 [3,"28 Oct","2026-10-28","4–6 PM; reception 6–8 PM","First Rays AI Portfolio Day",1,"https://luma.com/k51kc87q",3,"Free; approval required","Waiting approval","Waiting approval","Possibly busy during daytime","Palo Alto, CA","Exact address requires registration",false,"https://luma.com/k51kc87q"],
 [4,"28 Oct","2026-10-28","9 AM; end TBC","Agentic Infrastructure Stack Summit",0,"https://luma.com/69r7rj77",2,"Free; approval required","Waiting approval","Waiting approval","Possibly busy during daytime","Terra Gallery · 511 Harrison St, San Francisco, CA 94105","",true,"https://luma.com/69r7rj77"],
 [5,"28 Oct","2026-10-28","6 PM; end TBC","Rootly AI Executive Dinner",0,"https://luma.com/mjgnsagz",2,"Free; approval required","Waiting approval","Waiting approval","Possibly busy during daytime","San Francisco, CA","Exact address requires registration",false,"https://luma.com/mjgnsagz"],
 [6,"28 Oct","2026-10-28","6:00-8:00 PM","Borderless Builders: An Immigrant Founder Mixer",0,"https://luma.com/asan-ifm-1026?lm_source=embed&tk=qYg0Rx",2,"Free; approval required","Waiting approval","Waiting approval","Possibly busy during daytime","San Francisco, CA","Exact address requires registration",false,"https://luma.com/asan-ifm-1026?lm_source=embed&tk=qYg0Rx"],
 [7,"28–29 Oct","2026-10-28","Daytime; timetable TBC","One Way Summit",1,"https://luma.com/onewaysummit2026",3,"Paid event @ $249+ per Pax","Pak to decide","Paid event: Pak to decide. Speakers from top cos like OpenAI, Google, Slack, Duolingo, Mercury, NFX and Y Combinator, alongside founders and VCs.","Possibly busy during daytime","The Commonwealth Club · 110 The Embarcadero, San Francisco, CA 94105","",true,"https://luma.com/onewaysummit2026"],
-[8,"28–29 Oct","2026-10-28","Daytime; sessions TBC","GitHub Universe",0,"https://githubuniverse.com/",1,"Paid event @ $1,399","Pak to decide","Paid event - Pak to decide. Too expensive but good for developer networking. Top developers, speakers from major companies includging AI. However the price is way too high.","","Fort Mason Center, San Francisco, CA","",true,"https://githubuniverse.com/"],
-[9,"29 Oct","2026-10-29","5:30–7 PM; separate dinner 7:30–8:30 PM","Stanford LP Seminar #17",0,"https://luma.com/cpnt8bo5",3,"Free seminar","Approved","Approved - High value event- Stanford's AI & Investment Series. Lleading foundation, mission-driven institutional, sovereign-wealth, and family-office investors. They also have an evening dinner which can be applied for https://cresca.ai/e/ep_914460d72c202d4a87d21156880abb2f","","EVGR Building B, Room 144 · 735 Campus Drive, Stanford, CA 94305","",true,"https://luma.com/cpnt8bo5"],
-[10,"29 Oct","2026-10-29","8–9:30 AM","Agent Builders Breakfast",0,"https://luma.com/xueo91fw",2,"Free; approval required","Waiting approval","Waiting for approval. Good event to network with developers - Conversations and impromptu demos with others navigating the chaos of building AI Agents inside of tech companies.","","San Francisco, CA","Exact address requires registration",false,"https://luma.com/xueo91fw"],
-[11,"29 Oct","2026-10-29","1–7 PM","Agentic AI Day",1,"https://luma.com/cpqlpbpi",3,"Free; approval required","Not submitted","Need to answer - One line product intro, Confirm if Pak wants to demo the product.","Possibly busy during daytime; explicitly requested registration","San Francisco, CA","Exact address requires registration",false,"https://luma.com/cpqlpbpi"],
-[12,"29 Oct","2026-10-29","4-5 PM","Fireside Chat with David Rhew, Chief Medical Officer and VP of Healthcare at Microsoft",0,"https://luma.com/sbb-nlq1",1,"Free; approval required","Waiting approval","Waiting for approval: Pak may consider this only if the product targets healthcare industry. Stanford event - so quite valuable","","Stanford, CA","Exact address not published / not verified",false,"https://luma.com/sbb-nlq1"],
-[13,"30 Oct","2026-10-30","4–11 PM","Night Hack by Founders, Inc.",0,"https://luma.com/nighthack",3,"Free; application required","Not submitted","HIgh value event - needs answers like What will you try to build and demo live by the end of Night Hack? Confirm if Pak wants to demo the product.","Conflicting with Pak's evening schedule","San Francisco, CA","Exact address requires registration",false,"https://luma.com/nighthack"],
-[14,"02 Nov","2026-11-02","Afternoon; exact times TBC","Leading Finance in the AI Era",0,"https://luma.com/stripe-a16z-finance-event",3,"Free; approval required","Waiting approval","Waiting for approval. Event by Andreessen Horowitz and Stripe about AI shift, covering pricing, forecasting, unit economics and the evolving role of the CFO. Startup finance focused.","","San Francisco, CA","Exact address not published / not verified",false,"https://luma.com/stripe-a16z-finance-event"],
-[15,"02 Nov","2026-11-02","9:30 AM; end TBC","OSA Con",0,"https://luma.com/eis7567t",3,"Free","Approved","Approved - HIgh value event by AWS. Engineers, architects, and builders working at the intersection of open source data infrastructure and AI","","AWS Builder Loft · 525 Market St, Courtyard Entrance, San Francisco, CA 94105","",true,"https://luma.com/eis7567t"],
-[16,"02 Nov","2026-11-02","6 PM; end TBC","SF Table Founders Dinner",1,"https://www.garysguide.com/events/lun2skk",2,"$22 per Pax; invite-only","Pak to decide","Paid event: Pak to confirm","","Poesia · 4072 18th St, San Francisco, CA","",true,"Pak’s message"],
-[17,"04 Nov","2026-11-04","5 PM; end TBC","Robot Learning #02",0,"https://luma.com/robot-learning-world-models-nov4-2026",2,"Free","Waiting approval","Waiting for approval. Relevant to Mochi since we have a small device connected as AI. This event focuses on model's understanding of the physical world translate into reliable manipulation","","Bright Data — Web Data Loft · 625 2nd St, San Francisco, CA 94107","",true,"https://luma.com/robot-learning-world-models-nov4-2026"],
-[18,"04 Nov","2026-11-04","5:30 PM; end TBC","Frontier Research Club #30 at SignalFire",1,"https://luma.com/2m4q3u8b",3,"Previously listed free; approval required","Waiting approval","Waiting for approval","","San Francisco, CA","SignalFire · exact address requires registration",false,"https://luma.com/2m4q3u8b"],
-[19,"05 Nov","2026-11-05","TBC","Llama Lounge 27",1,"https://luma.com/llamalounge27",3,"Unconfirmed","Waiting approval","Waiting for approval","","Palo Alto, CA","SAP · exact address requires registration",false,"https://luma.com/llamalounge27"],
-[20,"05 Nov","2026-11-05","4–8 PM","Million Dollar Secret",1,"https://luma.com/f2470rg9",2,"$50","Pak to decide","Paid event: Pak to confirm","","Menlo Park, CA","Exact address requires registration",false,"https://luma.com/f2470rg9"],
-[21,"05 Nov","2026-11-05","9 AM–8 PM","AI Loves Data",0,"https://luma.com/aldsf26",3,"Free","Submitted","High value event focused on technical side of AI. One-day conference bringing together enterprise AI practitioners, machine learning engineers, architects, and technology leaders who are building the next generation of intelligent systems from some of the biggest comapnies in the world","","AWS Builder Loft · 525 Market St, San Francisco, CA 94105","",true,"https://luma.com/aldsf26"],
-[22,"05 Nov","2026-11-05","9 AM–5:30 PM","Voice Agents Forum",0,"https://luma.com/voiceagentssf",3,"$300 if bought before 29th Oct. $400 after that","Not submitted","Paid but High value event focused on technical side of Voice based AI. Useful technical and operational lessons around architecture, evaluation, observability, orchestration, reliability, compliance, and human handoff.","","Digital Jungle SF · 972 Mission St, San Francisco, CA 94103","",true,"https://luma.com/voiceagentssf"],
-[23,"05 Nov","2026-11-05","8:30 AM–6:40 PM, including reception","Reverie by LanceDB",0,"https://www.reveriesummit.com/",3,"$200 But found code DET50 which makes it $100","Not submitted","Paid but High value event - One-day summit for AI researchers and engineers building models that reason, create, and dream up new worlds. Speakrs from some of the biggest companies in the world.","","Contemporary Jewish Museum, San Francisco, CA","",true,"https://www.reveriesummit.com/?53839f57_page=3"],
-[24,"05 Nov","2026-11-05","6–8 PM","Braintrust × Greylock at Baseten",1,"https://luma.com/baseten-g3n4",3,"Unconfirmed; approval required","Waiting approval","Waiting approval","","Baseten · 560 Davis St, Suite 250, San Francisco, CA 94111","",true,"https://luma.com/baseten-g3n4"],
-[25,"5–6 Nov","2026-11-05","Daytime; 5 Nov afterparty; times TBC","BoxWorks Dev Summit",0,"https://luma.com/box-dev-summit-2026",2,"Free passes by application","Waiting approval","Waiting approval. Jenson Huang of Nvidia and other big names speaking. Event has workshops and technical deep dives designed to help you build with Box, AI, and today’s leading AI tools.","","San Francisco Marriott Marquis · 780 Mission St, San Francisco, CA 94103","",true,"https://luma.com/box-dev-summit-2026"],
-[26,"06 Nov","2026-11-06","6–8:30 PM","Startup World Cup Finale Party",1,"https://www.eventbrite.com/e/startup-world-cup-grand-finale-2026-tickets-1987093688714?aff=oddtdtcreator&keep_tld=true",3,"$156","Not submitted","High Value event - Go to their networking party $156. Startup worldcup is a global series of conferences and competitions that bring together the top startups, investors, entrepreneurs and tech CEOs around the world. Top investors like Daymond John from Shark Tank and other big names plus nots of founders and deveopers","","Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102","",true,"https://www.startupworldcup.io/networking-party"],
-[27,"10 Nov","2026-11-10","8 AM; end TBC","After Tokens",0,"https://luma.com/after-tokens",2,"Free; approval required","Waiting approval","Waiting approval - Event covers how AI businesses track usage, set customer and agent limits, and connect pricing, credits and billing.","","Terra · 511 Harrison St, San Francisco, CA 94105","",true,"https://luma.com/after-tokens"],
-[28,"10–12 Nov","2026-11-10","Daily times TBC","AI Engineer Code Summit",0,"https://ai.engineer/code/2026",1,"Unconfirmed","Not submitted","It's a high value event with a workshop on Oct 10. But there is no details about timing on the website yet, just dates so avoid ambiguity for now. If Pak likes the event, we can keep an eye on this and confirm when timing is announced.","Nothing after 5 PM on 10 Nov; departs that night","Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102","",true,"https://ai.engineer/code/2026"]
+[8,"28–29 Oct","2026-10-28","Daytime; sessions TBC","GitHub Universe",0,"https://githubuniverse.com/",1,"Paid event @ $1,399","Pak to decide","Paid event - Pak to decide. Too expensive but good for developer networking. Top developers, speakers from major companies including AI. However the price is way too high.","","Fort Mason Center, San Francisco, CA","",true,"https://githubuniverse.com/"],
+[9,"29 Oct","2026-10-29","5:30–7 PM; separate dinner 7:30–8:30 PM","Stanford LP Seminar #17",0,"https://luma.com/cpnt8bo5",3,"Free seminar","Approved","Approved - High value event - Stanford's AI & Investment Series. Leading foundation, mission-driven institutional, sovereign-wealth, and family-office investors. They also have an evening dinner which can be applied for https://cresca.ai/e/ep_914460d72c202d4a87d21156880abb2f","","EVGR Building B, Room 144 · 735 Campus Drive, Stanford, CA 94305","",true,"https://luma.com/cpnt8bo5"],
+[10,"29 Oct","2026-10-29","8–9:30 AM","Agent Builders Breakfast",0,"https://luma.com/xueo91fw",2,"Free; approval required","Waiting approval","Waiting for approval. Good event to network with developers - conversations and impromptu demos with others navigating the chaos of building AI agents inside tech companies.","","San Francisco, CA","Exact address requires registration",false,"https://luma.com/xueo91fw"],
+[11,"29 Oct","2026-10-29","1–7 PM","Agentic AI Day",1,"https://luma.com/cpqlpbpi",3,"Free; approval required","Not submitted","Need to answer: one-line product intro. Confirm if Pak wants to demo the product.","Possibly busy during daytime; explicitly requested registration","San Francisco, CA","Exact address requires registration",false,"https://luma.com/cpqlpbpi"],
+[12,"29 Oct","2026-10-29","4-5 PM","Fireside Chat with David Rhew, Chief Medical Officer and VP of Healthcare at Microsoft",0,"https://luma.com/sbb-nlq1",1,"Free; approval required","Waiting approval","Waiting for approval: Pak may consider this only if the product targets the healthcare industry. Stanford event - so quite valuable.","","Stanford, CA","Exact address not published / not verified",false,"https://luma.com/sbb-nlq1"],
+[13,"30 Oct","2026-10-30","4–11 PM","Night Hack by Founders, Inc.",0,"https://luma.com/nighthack",3,"Free; application required","Not submitted","High value event - needs answers like: What will you try to build and demo live by the end of Night Hack? Confirm if Pak wants to demo the product.","Conflicting with Pak's evening schedule","San Francisco, CA","Exact address requires registration",false,"https://luma.com/nighthack"],
+[14,"02 Nov","2026-11-02","Afternoon; exact times TBC","Leading Finance in the AI Era",0,"https://luma.com/stripe-a16z-finance-event",3,"Free; approval required","Waiting approval","Waiting for approval. Event by Andreessen Horowitz and Stripe about the AI shift, covering pricing, forecasting, unit economics and the evolving role of the CFO. Startup finance focused.","","San Francisco, CA","Exact address not published / not verified",false,"https://luma.com/stripe-a16z-finance-event"],
+[15,"02 Nov","2026-11-02","9:30 AM; end TBC","OSA Con",0,"https://luma.com/eis7567t",3,"Free","Approved","Approved - High value event by AWS. Engineers, architects, and builders working at the intersection of open source data infrastructure and AI.","","AWS Builder Loft · 525 Market St, Courtyard Entrance, San Francisco, CA 94105","",true,"https://luma.com/eis7567t"],
+[16,"02 Nov","2026-11-02","6 PM; end TBC","SF Table Founders Dinner",1,"https://www.garysguide.com/events/lun2skk",2,"$22 per Pax; invite-only","Pak to decide","Paid event: Pak to confirm.","","Poesia · 4072 18th St, San Francisco, CA","",true,"Pak’s message"],
+[17,"04 Nov","2026-11-04","5 PM; end TBC","Robot Learning #02",0,"https://luma.com/robot-learning-world-models-nov4-2026",2,"Free","Waiting approval","Waiting for approval. Relevant to Mochi since we have a small device connected as AI. This event focuses on how a model's understanding of the physical world translates into reliable manipulation.","","Bright Data — Web Data Loft · 625 2nd St, San Francisco, CA 94107","",true,"https://luma.com/robot-learning-world-models-nov4-2026"],
+[18,"04 Nov","2026-11-04","5:30 PM; end TBC","Frontier Research Club #30 at SignalFire",1,"https://luma.com/2m4q3u8b",3,"Previously listed free; approval required","Waiting approval","Waiting for approval.","","San Francisco, CA","SignalFire · exact address requires registration",false,"https://luma.com/2m4q3u8b"],
+[19,"05 Nov","2026-11-05","TBC","Llama Lounge 27",1,"https://luma.com/llamalounge27",3,"Unconfirmed","Waiting approval","Waiting for approval.","","Palo Alto, CA","SAP · exact address requires registration",false,"https://luma.com/llamalounge27"],
+[20,"05 Nov","2026-11-05","4–8 PM","Million Dollar Secret",1,"https://luma.com/f2470rg9",2,"$50","Pak to decide","Paid event: Pak to confirm.","","Menlo Park, CA","Exact address requires registration",false,"https://luma.com/f2470rg9"],
+[21,"05 Nov","2026-11-05","9 AM–8 PM","AI Loves Data",0,"https://luma.com/aldsf26",3,"Free","Submitted","High value event focused on the technical side of AI. One-day conference bringing together enterprise AI practitioners, machine learning engineers, architects, and technology leaders who are building the next generation of intelligent systems from some of the biggest companies in the world.","","AWS Builder Loft · 525 Market St, San Francisco, CA 94105","",true,"https://luma.com/aldsf26"],
+[22,"05 Nov","2026-11-05","9 AM–5:30 PM","Voice Agents Forum",0,"https://luma.com/voiceagentssf",3,"$300 if bought before 29th Oct. $400 after that","Not submitted","Paid but high value event focused on the technical side of voice-based AI. Useful technical and operational lessons around architecture, evaluation, observability, orchestration, reliability, compliance, and human handoff.","","Digital Jungle SF · 972 Mission St, San Francisco, CA 94103","",true,"https://luma.com/voiceagentssf"],
+[23,"05 Nov","2026-11-05","8:30 AM–6:40 PM, including reception","Reverie by LanceDB",0,"https://www.reveriesummit.com/",3,"$200; workbook code DET50 brings it to $100","Not submitted","Paid but high value event - one-day summit for AI researchers and engineers building models that reason, create, and dream up new worlds. Speakers from some of the biggest companies in the world.","","Contemporary Jewish Museum, San Francisco, CA","",true,"https://www.reveriesummit.com/?53839f57_page=3"],
+[24,"05 Nov","2026-11-05","6–8 PM","Braintrust × Greylock at Baseten",1,"https://luma.com/baseten-g3n4",3,"Unconfirmed; approval required","Waiting approval","Waiting approval.","","Baseten · 560 Davis St, Suite 250, San Francisco, CA 94111","",true,"https://luma.com/baseten-g3n4"],
+[25,"5–6 Nov","2026-11-05","Daytime; 5 Nov afterparty; times TBC","BoxWorks Dev Summit",0,"https://luma.com/box-dev-summit-2026",2,"Free passes by application","Waiting approval","Waiting approval. Jensen Huang of NVIDIA and other big names speaking. Event has workshops and technical deep dives designed to help you build with Box, AI, and today’s leading AI tools.","","San Francisco Marriott Marquis · 780 Mission St, San Francisco, CA 94103","",true,"https://luma.com/box-dev-summit-2026"],
+[26,"06 Nov","2026-11-06","6–8:30 PM","Startup World Cup Finale Party",1,"https://www.eventbrite.com/e/startup-world-cup-grand-finale-2026-tickets-1987093688714?aff=oddtdtcreator&keep_tld=true",3,"$156","Not submitted","High value event - networking party at $156. Startup World Cup is a global series of conferences and competitions bringing together startups, investors, entrepreneurs and tech CEOs. Workbook notes name Daymond John from Shark Tank and other big names, plus founders and developers.","","Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102","",true,"https://www.startupworldcup.io/networking-party"],
+[27,"10 Nov","2026-11-10","8 AM; end TBC","After Tokens",0,"https://luma.com/after-tokens",2,"Free; approval required","Waiting approval","Waiting approval - event covers how AI businesses track usage, set customer and agent limits, and connect pricing, credits and billing.","","Terra · 511 Harrison St, San Francisco, CA 94105","",true,"https://luma.com/after-tokens"],
+[28,"10–12 Nov","2026-11-10","Daily times TBC","AI Engineer Code Summit",0,"https://ai.engineer/code/2026",1,"Unconfirmed","Not submitted","High value event. Workshop date is written as Oct 10 in the workbook, which conflicts with the listed Nov 10–12 event dates; confirm before planning. Exact timing needs confirmation.","Nothing after 5 PM on 10 Nov; departs that night","Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102","",true,"https://ai.engineer/code/2026"]
 ]
 </script>
 
 <script>
 const $ = selector => document.querySelector(selector);
 
-const data = JSON.parse($("#event-data").textContent).map(r => ({
-  id: r[0],
-  date: r[1],
-  day: r[2],
-  time: r[3],
-  name: r[4],
-  pak: !!r[5],
-  url: r[6],
-  priority: r[7],
-  price: r[8],
-  status: r[9],
-  note: r[10],
-  conflict: r[11],
-  location: r[12],
-  locationNote: r[13],
-  locationKnown: r[14],
-  locationSource: r[15]
+const data = JSON.parse($("#event-data").textContent).map(row => ({
+  id: row[0],
+  date: row[1],
+  day: row[2],
+  time: row[3],
+  name: row[4],
+  pak: !!row[5],
+  url: row[6],
+  priority: row[7],
+  price: row[8],
+  status: row[9],
+  note: row[10],
+  conflict: row[11],
+  location: row[12],
+  locationNote: row[13],
+  locationKnown: row[14],
+  locationSource: row[15]
 }));
 
-const SUPABASE_URL = "https://tvispumenkflecdusrut.supabase.co";
-const SUPABASE_KEY = "sb_publishable_b3-7S8KVe-I2NJRlHZy9fg_Flz6Atje";
+const SUPABASE_URL =
+  "https://tvispumenkflecdusrut.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_b3-7S8KVe-I2NJRlHZy9fg_Flz6Atje";
+
+const confirmedUrls = new Set([
+  "https://luma.com/cpqlpbpi",
+  "https://luma.com/llamalounge27"
+]);
 
 const statusOptions = [
   "Not recorded",
@@ -253,36 +703,59 @@ let syncMessage = "Connecting to shared statuses…";
 function readStoredObject(key) {
   try {
     const value = JSON.parse(localStorage.getItem(key) || "{}");
-    if (value && typeof value === "object" && !Array.isArray(value)) {
+
+    if (
+      value &&
+      typeof value === "object" &&
+      !Array.isArray(value)
+    ) {
       return value;
     }
   } catch (error) {
     console.warn("Browser storage unavailable:", error.message);
   }
+
   return {};
 }
 
 function esc(value) {
-  return String(value ?? "").replace(/[&<>"']/g, character => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[character]);
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    character => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[character]
+  );
 }
 
 function linkify(value) {
   return esc(value).replace(
     /https:\/\/[^\s<]+/g,
-    url => `<a href="${url}" target="_blank" rel="noopener noreferrer">Related link ↗</a>`
+    url => `
+      <a
+        href="${url}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Related link ↗</a>
+    `
   );
 }
 
 function persistLocal() {
   try {
-    localStorage.setItem(storageKey, JSON.stringify(statusOverrides));
-    localStorage.setItem(pendingKey, JSON.stringify(pending));
+    localStorage.setItem(
+      storageKey,
+      JSON.stringify(statusOverrides)
+    );
+
+    localStorage.setItem(
+      pendingKey,
+      JSON.stringify(pending)
+    );
+
     return true;
   } catch (error) {
     return false;
@@ -291,8 +764,10 @@ function persistLocal() {
 
 function syncLabel() {
   const count = Object.keys(pending).length;
+
   $("#cloud-state").textContent =
-    syncMessage + (count ? ` · ${count} change(s) waiting to save` : "");
+    syncMessage +
+    (count ? ` · ${count} change(s) waiting to save` : "");
 }
 
 async function requestCloud(query, options = {}) {
@@ -311,14 +786,20 @@ async function requestCloud(query, options = {}) {
 
   if (!response.ok) {
     const body = await response.text();
-    throw new Error(response.status + " " + body.slice(0, 160));
+
+    throw new Error(
+      response.status + " " + body.slice(0, 160)
+    );
   }
 
-  return response.status === 204 ? null : response.json();
+  return response.status === 204
+    ? null
+    : response.json();
 }
 
 async function syncCloud() {
   if (syncBusy) return;
+
   syncBusy = true;
 
   try {
@@ -327,13 +808,17 @@ async function syncCloud() {
         "?event_url=eq." + encodeURIComponent(url),
         {
           method: "PATCH",
-          headers: { Prefer: "return=representation" },
-          body: JSON.stringify({ status: change.status })
+          headers: {
+            Prefer: "return=representation"
+          },
+          body: JSON.stringify({
+            status: change.status
+          })
         }
       );
 
       if (!result?.length) {
-        throw new Error("Event row missing; run setup SQL");
+        throw new Error("Event row missing; run the SQL");
       }
 
       if (pending[url]?.token === change.token) {
@@ -343,10 +828,15 @@ async function syncCloud() {
       }
     }
 
-    const rows = await requestCloud("?select=event_url,status");
+    const rows = await requestCloud(
+      "?select=event_url,status"
+    );
 
     for (const row of rows) {
-      if (!pending[row.event_url] && statusOptions.includes(row.status)) {
+      if (
+        !pending[row.event_url] &&
+        statusOptions.includes(row.status)
+      ) {
         statusOverrides[row.event_url] = row.status;
       }
     }
@@ -382,13 +872,19 @@ function statusClass(status) {
 
 function statusControl(event) {
   const status = currentStatus(event);
-  const options = statusOptions.map(option =>
-    `<option value="${esc(option)}" ${option === status ? "selected" : ""}>${esc(option)}</option>`
-  ).join("");
+
+  const options = statusOptions.map(option => `
+    <option
+      value="${esc(option)}"
+      ${option === status ? "selected" : ""}
+    >${esc(option)}</option>
+  `).join("");
 
   const saveText = pending[event.url]
     ? "Waiting to save online"
-    : cloudReady ? "Saved to shared planner" : "Connecting…";
+    : cloudReady
+      ? "Saved to shared planner"
+      : "Connecting…";
 
   return `
     <select
@@ -396,7 +892,12 @@ function statusControl(event) {
       data-status-id="${event.id}"
       aria-label="Status for ${esc(event.name)}"
     >${options}</select>
-    <div class="save-state" id="save-${event.id}" role="status">${saveText}</div>
+
+    <div
+      class="save-state"
+      id="save-${event.id}"
+      role="status"
+    >${saveText}</div>
   `;
 }
 
@@ -410,30 +911,56 @@ function locationControl(event) {
     : "View city on Google Maps — not an event pin";
 
   const source = event.locationSource.startsWith("https:")
-    ? ` · <a href="${esc(event.locationSource)}" target="_blank" rel="noopener noreferrer">Location source</a>`
+    ? `
+      · <a
+        href="${esc(event.locationSource)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Location source</a>
+    `
     : "<small>Address supplied by Pak</small>";
 
   return `
     <div class="location">
       <span class="label">Event location</span>
+
       ${esc(event.location)}
-      ${event.locationNote ? `<small>${esc(event.locationNote)}</small>` : ""}
+
+      ${
+        event.locationNote
+          ? `<small>${esc(event.locationNote)}</small>`
+          : ""
+      }
+
       <br>
-      <a href="${esc(maps)}" target="_blank" rel="noopener noreferrer">${label} ↗</a>
+
+      <a
+        href="${esc(maps)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >${label} ↗</a>
+
       ${source}
     </div>
   `;
 }
 
 function highlightNumbers(root) {
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const walker = document.createTreeWalker(
+    root,
+    NodeFilter.SHOW_TEXT
+  );
+
   const nodes = [];
 
   while (walker.nextNode()) {
     const node = walker.currentNode;
+
     if (
       /\d/.test(node.nodeValue) &&
-      !node.parentElement.closest("script,style,select,option,.num")
+      !node.parentElement.closest(
+        "script,style,select,option,.num"
+      )
     ) {
       nodes.push(node);
     }
@@ -442,16 +969,20 @@ function highlightNumbers(root) {
   for (const node of nodes) {
     const fragment = document.createDocumentFragment();
 
-    node.nodeValue.split(/(\d[\d,.]*(?:%|\+)?)/g).forEach((part, index) => {
-      if (index % 2) {
-        const span = document.createElement("span");
-        span.className = "num";
-        span.textContent = part;
-        fragment.appendChild(span);
-      } else {
-        fragment.appendChild(document.createTextNode(part));
-      }
-    });
+    node.nodeValue
+      .split(/(\d[\d,.]*(?:%|\+)?)/g)
+      .forEach((part, index) => {
+        if (index % 2) {
+          const span = document.createElement("span");
+          span.className = "num";
+          span.textContent = part;
+          fragment.appendChild(span);
+        } else {
+          fragment.appendChild(
+            document.createTextNode(part)
+          );
+        }
+      });
 
     node.replaceWith(fragment);
   }
@@ -459,19 +990,27 @@ function highlightNumbers(root) {
 
 function priceType(event) {
   const price = event.price.toLowerCase();
+
   if (/free/.test(price)) return "free";
   if (/\$|paid/.test(price)) return "paid";
+
   return "unknown";
 }
 
 function platformFor(event) {
-  return new URL(event.url).hostname === "luma.com" ? "Luma" : "Non-Luma";
+  return new URL(event.url).hostname === "luma.com"
+    ? "Luma"
+    : "Non-Luma";
 }
 
 $("#total").textContent = data.length;
-$("#pakCount").textContent = $("#pc").textContent =
+
+$("#pakCount").textContent =
+  $("#pc").textContent =
   data.filter(event => event.pak).length;
-$("#researchCount").textContent = $("#rc").textContent =
+
+$("#researchCount").textContent =
+  $("#rc").textContent =
   data.filter(event => !event.pak).length;
 
 function render() {
@@ -488,14 +1027,31 @@ function render() {
         .toLowerCase().includes(query) &&
       (
         platformFilter === "all" ||
-        (platformFilter === "luma" ? platform === "Luma" : platform === "Non-Luma")
+        (
+          platformFilter === "luma"
+            ? platform === "Luma"
+            : platform === "Non-Luma"
+        )
       ) &&
-      (costFilter === "all" || priceType(event) === costFilter)
+      (
+        costFilter === "all" ||
+        priceType(event) === costFilter
+      )
     );
   });
 
   rows.sort((a, b) =>
-    ($("#sort").value === "priority" ? b.priority - a.priority : 0) ||
+    (
+      tab === "pak"
+        ? Number(confirmedUrls.has(b.url)) -
+          Number(confirmedUrls.has(a.url))
+        : 0
+    ) ||
+    (
+      $("#sort").value === "priority"
+        ? b.priority - a.priority
+        : 0
+    ) ||
     a.day.localeCompare(b.day) ||
     a.id - b.id
   );
@@ -504,45 +1060,112 @@ function render() {
     `${rows.length} event${rows.length === 1 ? "" : "s"} · ` +
     (tab === "pak" ? "Suggested by Pak" : "Via research");
 
+  let previousGroup = "";
+
   $("#list").innerHTML = rows.length
     ? rows.map(event => {
       const platform = platformFor(event);
 
+      const group = confirmedUrls.has(event.url)
+        ? "Confirmed by Pak"
+        : "Pak to decide";
+
+      let heading = "";
+
+      if (tab === "pak" && group !== previousGroup) {
+        const count = rows.filter(row =>
+          confirmedUrls.has(row.url) ===
+          confirmedUrls.has(event.url)
+        ).length;
+
+        heading = `
+          <h2 class="section-heading">
+            ${group}
+            <small>
+              ${count} event${count === 1 ? "" : "s"}
+            </small>
+          </h2>
+        `;
+
+        previousGroup = group;
+      }
+
       return `
+        ${heading}
+
         <article class="event ${event.priority === 3 ? "high" : ""}">
           <div class="dateblock">
             <div class="date">${esc(event.date)}</div>
-            <div class="time">${esc(event.time)}<br>Pacific</div>
-          </div>
-          <div>
-            <a class="title" href="${esc(event.url)}" target="_blank" rel="noopener noreferrer">${esc(event.name)} ↗</a>
-            <div class="chips">
-              ${event.priority === 3 ? '<span class="chip hot">High value</span>' : ""}
-              <span class="chip">${platform}</span>
-              <span class="chip">${event.pak ? "Via Pak" : "Via research"}</span>
+            <div class="time">
+              ${esc(event.time)}<br>Pacific
             </div>
-            ${event.note ? `<div class="note">${linkify(event.note)}</div>` : ""}
-            ${locationControl(event)}
-            ${event.conflict ? `
-              <div class="conflict">
-                <span class="label">Conflict with Pak’s schedule</span>
-                ${esc(event.conflict)}
-              </div>` : ""}
           </div>
+
+          <div>
+            <a
+              class="title"
+              href="${esc(event.url)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >${esc(event.name)} ↗</a>
+
+            <div class="chips">
+              ${
+                event.priority === 3
+                  ? '<span class="chip hot">High value</span>'
+                  : ""
+              }
+
+              <span class="chip">${platform}</span>
+
+              <span class="chip">
+                ${event.pak ? "Via Pak" : "Via research"}
+              </span>
+            </div>
+
+            ${
+              event.note
+                ? `<div class="note">${linkify(event.note)}</div>`
+                : ""
+            }
+
+            ${locationControl(event)}
+
+            ${
+              event.conflict
+                ? `
+                  <div class="conflict">
+                    <span class="label">
+                      Conflict with Pak’s schedule
+                    </span>
+                    ${esc(event.conflict)}
+                  </div>
+                `
+                : ""
+            }
+          </div>
+
           <div class="meta">
             <section>
               <span class="label">Ticket price · workbook</span>
               <span class="price">${esc(event.price)}</span>
             </section>
+
             <section>
               <span class="label">Application / status</span>
               ${statusControl(event)}
             </section>
-            ${!event.pak && platform === "Non-Luma" ? `
-              <section>
-                <span class="label">Decision</span>
-                Send to Pak for yes / no
-              </section>` : ""}
+
+            ${
+              !event.pak && platform === "Non-Luma"
+                ? `
+                  <section>
+                    <span class="label">Decision</span>
+                    Send to Pak for yes / no
+                  </section>
+                `
+                : ""
+            }
           </div>
         </article>
       `;
@@ -555,19 +1178,26 @@ function render() {
 
 $("#list").addEventListener("change", browserEvent => {
   const control = browserEvent.target;
+
   if (!control.matches("[data-status-id]")) return;
 
-  const event = data.find(item => item.id === Number(control.dataset.statusId));
+  const event = data.find(
+    item => item.id === Number(control.dataset.statusId)
+  );
+
   if (!event || !statusOptions.includes(control.value)) return;
 
   statusOverrides[event.url] = control.value;
+
   pending[event.url] = {
     status: control.value,
     token: Date.now() + "-" + Math.random()
   };
 
   const stored = persistLocal();
-  control.className = "status-select " + statusClass(control.value);
+
+  control.className =
+    "status-select " + statusClass(control.value);
 
   $("#save-" + event.id).textContent = stored
     ? "Waiting to save online"
@@ -581,23 +1211,38 @@ $("#list").addEventListener("change", browserEvent => {
 document.querySelectorAll("[data-tab]").forEach(button => {
   button.addEventListener("click", () => {
     tab = button.dataset.tab;
+
     document.querySelectorAll("[data-tab]").forEach(item => {
-      item.setAttribute("aria-selected", String(item === button));
+      item.setAttribute(
+        "aria-selected",
+        String(item === button)
+      );
     });
-    $("#panel").setAttribute("aria-labelledby", button.id);
+
+    $("#panel").setAttribute(
+      "aria-labelledby",
+      button.id
+    );
+
     render();
   });
 });
 
 ["search", "platform", "cost", "sort"].forEach(id => {
-  $("#" + id).addEventListener(id === "search" ? "input" : "change", render);
+  $("#" + id).addEventListener(
+    id === "search" ? "input" : "change",
+    render
+  );
 });
 
 render();
 highlightNumbers(document.querySelector("main"));
 syncCloud();
+
 setInterval(syncCloud, 15000);
+
 window.addEventListener("online", syncCloud);
+
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden) syncCloud();
 });
