@@ -548,6 +548,14 @@ summary {
     aria-selected="false"
     data-tab="approved"
   >All approved events <small id="ac"></small></button>
+
+  <button
+    role="tab"
+    id="paidTab"
+    aria-controls="panel"
+    aria-selected="false"
+    data-tab="paid"
+  >All paid events <small id="paidCount"></small></button>
 </nav>
 
 <div class="toolbar">
@@ -567,7 +575,7 @@ summary {
   <select id="cost" aria-label="Filter cost">
     <option value="all">All prices</option>
     <option value="free">Free / free option</option>
-    <option value="paid">Paid</option>
+    <option value="paid">Paid / paid option</option>
     <option value="unknown">Price unconfirmed</option>
   </select>
 
@@ -580,6 +588,7 @@ summary {
 <p class="description">
   Pak’s confirmed choices appear first in his tab. All approved events
   shows events from either source whose application status is Approved.
+  All paid events includes paid tickets and events with both free and paid options.
   Attendance decisions and registration approval statuses are separate.
 </p>
 
@@ -646,25 +655,25 @@ locationKnown, locationSource
 [7,"28–29 Oct","2026-10-28","Daytime; timetable TBC","One Way Summit",1,"https://luma.com/onewaysummit2026",3,"Paid event @ $249+ per Pax","Pak to decide","Paid event: Pak to decide. Speakers from top cos like OpenAI, Google, Slack, Duolingo, Mercury, NFX and Y Combinator, alongside founders and VCs.","Possibly busy during daytime","The Commonwealth Club · 110 The Embarcadero, San Francisco, CA 94105","",true,"https://luma.com/onewaysummit2026"],
 [8,"28–29 Oct","2026-10-28","Daytime; sessions TBC","GitHub Universe",0,"https://githubuniverse.com/",1,"Paid event @ $1,399","Pak to decide","Paid event - Pak to decide. Too expensive but good for developer networking. Top developers, speakers from major companies including AI. However the price is way too high.","","Fort Mason Center, San Francisco, CA","",true,"https://githubuniverse.com/"],
 [9,"29 Oct","2026-10-29","5:30–7 PM; separate dinner 7:30–8:30 PM","Stanford LP Seminar #17",0,"https://luma.com/cpnt8bo5",3,"Free seminar","Approved","Approved - High value event - Stanford's AI & Investment Series. Leading foundation, mission-driven institutional, sovereign-wealth, and family-office investors. They also have an evening dinner which can be applied for https://cresca.ai/e/ep_914460d72c202d4a87d21156880abb2f","","EVGR Building B, Room 144 · 735 Campus Drive, Stanford, CA 94305","",true,"https://luma.com/cpnt8bo5"],
-[10,"29 Oct","2026-10-29","8:00–9:30 AM PDT","Agent Builders Breakfast",0,"https://luma.com/xueo91fw",2,"Free; approval required","Approved","Approved. Good event to network with developers - conversations and impromptu demos with others navigating the chaos of building AI agents inside tech companies.","","Azúcar Lounge, San Francisco, United States","",true,"https://luma.com/xueo91fw"],
-[11,"29 Oct","2026-10-29","1–7 PM","Agentic AI Day",1,"https://luma.com/cpqlpbpi",3,"Free; approval required","Not submitted","Need to answer: one-line product intro. Confirm if Pak wants to demo the product.","Possibly busy during daytime; explicitly requested registration","San Francisco, CA","Exact address requires registration",false,"https://luma.com/cpqlpbpi"],
-[12,"29 Oct","2026-10-29","4-5 PM","Fireside Chat with David Rhew, Chief Medical Officer and VP of Healthcare at Microsoft",0,"https://luma.com/sbb-nlq1",1,"Free; approval required","Waiting approval","Waiting for approval: Pak may consider this only if the product targets the healthcare industry. Stanford event - so quite valuable.","","Stanford, CA","Exact address not published / not verified",false,"https://luma.com/sbb-nlq1"],
-[13,"30 Oct","2026-10-30","4–11 PM","Night Hack by Founders, Inc.",0,"https://luma.com/nighthack",3,"Free; application required","Not submitted","High value event - needs answers like: What will you try to build and demo live by the end of Night Hack? Confirm if Pak wants to demo the product.","Conflicting with Pak's evening schedule","San Francisco, CA","Exact address requires registration",false,"https://luma.com/nighthack"],
-[14,"02 Nov","2026-11-02","Afternoon; exact times TBC","Leading Finance in the AI Era",0,"https://luma.com/stripe-a16z-finance-event",3,"Free; approval required","Waiting approval","Waiting for approval. Event by Andreessen Horowitz and Stripe about the AI shift, covering pricing, forecasting, unit economics and the evolving role of the CFO. Startup finance focused.","","San Francisco, CA","Exact address not published / not verified",false,"https://luma.com/stripe-a16z-finance-event"],
-[15,"02 Nov","2026-11-02","9:30 AM; end TBC","OSA Con",0,"https://luma.com/eis7567t",3,"Free","Approved","Approved - High value event by AWS. Engineers, architects, and builders working at the intersection of open source data infrastructure and AI.","","AWS Builder Loft · 525 Market St, Courtyard Entrance, San Francisco, CA 94105","",true,"https://luma.com/eis7567t"],
-[16,"02 Nov","2026-11-02","6 PM; end TBC","SF Table Founders Dinner",1,"https://www.garysguide.com/events/lun2skk",2,"$22 per Pax; invite-only","Pak to decide","Paid event: Pak to confirm.","","Poesia · 4072 18th St, San Francisco, CA","",true,"Pak’s message"],
-[17,"04 Nov","2026-11-04","5 PM; end TBC","Robot Learning #02",0,"https://luma.com/robot-learning-world-models-nov4-2026",2,"Free","Waiting approval","Waiting for approval. Relevant to Mochi since we have a small device connected as AI. This event focuses on how a model's understanding of the physical world translates into reliable manipulation.","","Bright Data — Web Data Loft · 625 2nd St, San Francisco, CA 94107","",true,"https://luma.com/robot-learning-world-models-nov4-2026"],
-[18,"04 Nov","2026-11-04","5:30 PM; end TBC","Frontier Research Club #30 at SignalFire",1,"https://luma.com/2m4q3u8b",3,"Previously listed free; approval required","Waiting approval","Waiting for approval.","","San Francisco, CA","SignalFire · exact address requires registration",false,"https://luma.com/2m4q3u8b"],
-[19,"05 Nov","2026-11-05","5:00–8:30 PM PST","Llama Lounge 27",1,"https://luma.com/llamalounge27",3,"Unconfirmed","Approved","Approved.","","SAP · 3410 Hillview Ave, Palo Alto, United States","",true,"https://luma.com/llamalounge27"],
-[20,"05 Nov","2026-11-05","4–8 PM","Million Dollar Secret",1,"https://luma.com/f2470rg9",2,"$50","Pak to decide","Paid event: Pak to confirm.","","Menlo Park, CA","Exact address requires registration",false,"https://luma.com/f2470rg9"],
-[21,"05 Nov","2026-11-05","9 AM–8 PM","AI Loves Data",0,"https://luma.com/aldsf26",3,"Free","Approved","Approved - High value event focused on the technical side of AI. One-day conference bringing together enterprise AI practitioners, machine learning engineers, architects, and technology leaders who are building the next generation of intelligent systems from some of the biggest companies in the world.","","AWS Builder Loft · 525 Market St, San Francisco, CA 94105","",true,"https://luma.com/aldsf26"],
-[22,"05 Nov","2026-11-05","9 AM–5:30 PM","Voice Agents Forum",0,"https://luma.com/voiceagentssf",3,"$300 if bought before 29th Oct. $400 after that","Not submitted","Paid but high value event focused on the technical side of voice-based AI. Useful technical and operational lessons around architecture, evaluation, observability, orchestration, reliability, compliance, and human handoff.","","Digital Jungle SF · 972 Mission St, San Francisco, CA 94103","",true,"https://luma.com/voiceagentssf"],
-[23,"05 Nov","2026-11-05","8:30 AM–6:40 PM, including reception","Reverie by LanceDB",0,"https://www.reveriesummit.com/",3,"$200; workbook code DET50 brings it to $100","Not submitted","Paid but high value event - one-day summit for AI researchers and engineers building models that reason, create, and dream up new worlds. Speakers from some of the biggest companies in the world.","","Contemporary Jewish Museum, San Francisco, CA","",true,"https://www.reveriesummit.com/?53839f57_page=3"],
-[24,"05 Nov","2026-11-05","6–8 PM","Braintrust × Greylock at Baseten",1,"https://luma.com/baseten-g3n4",3,"Unconfirmed; approval required","Waiting approval","Waiting approval.","","Baseten · 560 Davis St, Suite 250, San Francisco, CA 94111","",true,"https://luma.com/baseten-g3n4"],
+[10,"29 Oct","2026-10-29","8:00–9:30 AM PDT","Agent Builders Breakfast",0,"https://luma.com/xueo91fw",2,"Free; approval required","Approved","Approved. Good event to network with developers - Conversations and impromptu demos with others navigating the chaos of building AI Agents inside of tech companies.","","Azúcar Lounge, San Francisco, United States","",true,"https://luma.com/xueo91fw"],
+[11,"29 Oct","2026-10-29","1–7 PM","Agentic AI Day",1,"https://luma.com/cpqlpbpi",3,"Free; approval required","Waiting approval","Waiting for approval. We have applied to demo here.","Possibly busy during daytime; explicitly requested registration","San Francisco, CA","Exact address requires registration",false,"https://luma.com/cpqlpbpi"],
+[12,"29 Oct","2026-10-29","4-5 PM","Fireside Chat with David Rhew, Chief Medical Officer and VP of Healthcare at Microsoft",0,"https://luma.com/sbb-nlq1",1,"Free; approval required","Approved","Approved: Pak may consider this only if the product targets healthcare industry. Stanford event - so quite valuable","","Stanford, CA","Exact address not published / not verified",false,"https://luma.com/sbb-nlq1"],
+[13,"30 Oct","2026-10-30","4–11 PM","Night Hack by Founders, Inc.",0,"https://luma.com/nighthack",3,"Free; application required","Waiting approval","Awaiting approval. We have confirmed and filled form saying Pak wants to demo the product.","Conflicting with Pak's evening schedule","San Francisco, CA","Exact address requires registration",false,"https://luma.com/nighthack"],
+[14,"02 Nov","2026-11-02","Afternoon; exact times TBC","Leading Finance in the AI Era",0,"https://luma.com/stripe-a16z-finance-event",3,"Free; approval required","Waiting approval","Waiting for approval. Event by Andreessen Horowitz and Stripe about AI shift, covering pricing, forecasting, unit economics and the evolving role of the CFO. Startup finance focused.","","San Francisco, CA","Exact address not published / not verified",false,"https://luma.com/stripe-a16z-finance-event"],
+[15,"02 Nov","2026-11-02","9:30 AM; end TBC","OSA Con",0,"https://luma.com/eis7567t",3,"Free","Approved","Approved - High value event by AWS. Engineers, architects, and builders working at the intersection of open source data infrastructure and AI","","AWS Builder Loft · 525 Market St, Courtyard Entrance, San Francisco, CA 94105","",true,"https://luma.com/eis7567t"],
+[16,"02 Nov","2026-11-02","6 PM; end TBC","SF Table Founders Dinner",1,"https://www.garysguide.com/events/lun2skk",2,"$22 per Pax; invite-only","Pak to decide","Paid event: Pak to confirm","","Poesia · 4072 18th St, San Francisco, CA","",true,"Pak’s message"],
+[17,"04 Nov","2026-11-04","5 PM; end TBC","Robot Learning #02",0,"https://luma.com/robot-learning-world-models-nov4-2026",2,"Free","Waiting approval","Waiting for approval. Relevant to Mochi since we have a small device connected as AI. This event focuses on model's understanding of the physical world translate into reliable manipulation","","Bright Data — Web Data Loft · 625 2nd St, San Francisco, CA 94107","",true,"https://luma.com/robot-learning-world-models-nov4-2026"],
+[18,"04 Nov","2026-11-04","5:30 PM; end TBC","Frontier Research Club #30 at SignalFire",1,"https://luma.com/2m4q3u8b",3,"Previously listed free; approval required","Waiting approval","Waiting for approval","","San Francisco, CA","SignalFire · exact address requires registration",false,"https://luma.com/2m4q3u8b"],
+[19,"05 Nov","2026-11-05","5:00–8:30 PM PST","Llama Lounge 27",1,"https://luma.com/llamalounge27",3,"Unconfirmed","Approved","Approved","","SAP · 3410 Hillview Ave, Palo Alto, United States","",true,"https://luma.com/llamalounge27"],
+[20,"05 Nov","2026-11-05","4–8 PM","Million Dollar Secret",1,"https://luma.com/f2470rg9",2,"$50","Pak to decide","Paid event: Pak to confirm","","Menlo Park, CA","Exact address requires registration",false,"https://luma.com/f2470rg9"],
+[21,"05 Nov","2026-11-05","9 AM–8 PM","AI Loves Data",0,"https://luma.com/aldsf26",3,"Free","Approved","Approved - High value event focused on technical side of AI. One-day conference bringing together enterprise AI practitioners, machine learning engineers, architects, and technology leaders who are building the next generation of intelligent systems from some of the biggest companies in the world","","AWS Builder Loft · 525 Market St, San Francisco, CA 94105","",true,"https://luma.com/aldsf26"],
+[22,"05 Nov","2026-11-05","9 AM–5:30 PM","Voice Agents Forum",0,"https://luma.com/voiceagentssf",3,"$300 if bought before 29th Oct. $400 after that","Not submitted","Paid but High value event focused on technical side of Voice based AI. Useful technical and operational lessons around architecture, evaluation, observability, orchestration, reliability, compliance, and human handoff.","","Digital Jungle SF · 972 Mission St, San Francisco, CA 94103","",true,"https://luma.com/voiceagentssf"],
+[23,"05 Nov","2026-11-05","8:30 AM–6:40 PM, including reception","Reverie by LanceDB",0,"https://www.reveriesummit.com/",3,"$200 But found code DET50 which makes it $100","Not submitted","Paid but High value event - One-day summit for AI researchers and engineers building models that reason, create, and dream up new worlds. Speakers from some of the biggest companies in the world.","","Contemporary Jewish Museum, San Francisco, CA","",true,"https://www.reveriesummit.com/?53839f57_page=3"],
+[24,"05 Nov","2026-11-05","6–8 PM","Braintrust × Greylock at Baseten",1,"https://luma.com/baseten-g3n4",3,"Unconfirmed; approval required","Waiting approval","Waiting approval","","Baseten · 560 Davis St, Suite 250, San Francisco, CA 94111","",true,"https://luma.com/baseten-g3n4"],
 [25,"5–6 Nov","2026-11-05","Daytime; 5 Nov afterparty; times TBC","BoxWorks Dev Summit",0,"https://luma.com/box-dev-summit-2026",2,"Free passes by application","Waiting approval","Waiting approval. Jensen Huang of NVIDIA and other big names speaking. Event has workshops and technical deep dives designed to help you build with Box, AI, and today’s leading AI tools.","","San Francisco Marriott Marquis · 780 Mission St, San Francisco, CA 94103","",true,"https://luma.com/box-dev-summit-2026"],
-[26,"06 Nov","2026-11-06","6–8:30 PM","Startup World Cup Finale Party",1,"https://www.eventbrite.com/e/startup-world-cup-grand-finale-2026-tickets-1987093688714?aff=oddtdtcreator&keep_tld=true",3,"$156","Not submitted","High value event - networking party at $156. Startup World Cup is a global series of conferences and competitions bringing together startups, investors, entrepreneurs and tech CEOs. Workbook notes name Daymond John from Shark Tank and other big names, plus founders and developers.","","Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102","",true,"https://www.startupworldcup.io/networking-party"],
-[27,"10 Nov","2026-11-10","8 AM; end TBC","After Tokens",0,"https://luma.com/after-tokens",2,"Free; approval required","Waiting approval","Waiting approval - event covers how AI businesses track usage, set customer and agent limits, and connect pricing, credits and billing.","","Terra · 511 Harrison St, San Francisco, CA 94105","",true,"https://luma.com/after-tokens"],
-[28,"10–12 Nov","2026-11-10","Daily times TBC","AI Engineer Code Summit",0,"https://ai.engineer/code/2026",1,"Unconfirmed","Not submitted","High value event. Workshop date is written as Oct 10 in the workbook, which conflicts with the listed Nov 10–12 event dates; confirm before planning. Exact timing needs confirmation.","Nothing after 5 PM on 10 Nov; departs that night","Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102","",true,"https://ai.engineer/code/2026"]
+[26,"06 Nov","2026-11-06","6–8:30 PM","Startup World Cup Finale Party",1,"https://www.eventbrite.com/e/startup-world-cup-grand-finale-2026-tickets-1987093688714?aff=oddtdtcreator&keep_tld=true",3,"$156","Not submitted","High Value event - Go to their networking party $156. Startup World Cup is a global series of conferences and competitions that bring together the top startups, investors, entrepreneurs and tech CEOs around the world. Top investors like Daymond John from Shark Tank and other big names plus lots of founders and developers","","Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102","",true,"https://www.startupworldcup.io/networking-party"],
+[27,"10 Nov","2026-11-10","8 AM; end TBC","After Tokens",0,"https://luma.com/after-tokens",2,"Free; approval required","Waiting approval","Waiting approval - Event covers how AI businesses track usage, set customer and agent limits, and connect pricing, credits and billing.","","Terra · 511 Harrison St, San Francisco, CA 94105","",true,"https://luma.com/after-tokens"],
+[28,"10–12 Nov","2026-11-10","Daily times TBC","AI Engineer Code Summit",0,"https://ai.engineer/code/2026",1,"Unconfirmed","Not submitted","It's a high value event with a workshop on Oct 10. But there are no details about timing on the website yet, just dates so avoid ambiguity for now. If Pak likes the event, we can keep an eye on this and confirm when timing is announced.","Nothing after 5 PM on 10 Nov; departs that night","Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102","",true,"https://ai.engineer/code/2026"]
 ]
 </script>
 
@@ -1022,11 +1031,15 @@ function highlightNumbers(root) {
   }
 }
 
+function hasPaidOption(event) {
+  return /\$|\bpaid\b/i.test(event.price);
+}
+
 function priceType(event) {
   const price = event.price.toLowerCase();
 
   if (/free/.test(price)) return "free";
-  if (/\$|paid/.test(price)) return "paid";
+  if (hasPaidOption(event)) return "paid";
 
   return "unknown";
 }
@@ -1050,6 +1063,9 @@ function updateTabCounts() {
 
   $("#ac").textContent =
     data.filter(event => currentStatus(event) === "Approved").length;
+
+  $("#paidCount").textContent =
+    data.filter(hasPaidOption).length;
 }
 
 function render() {
@@ -1064,7 +1080,16 @@ function render() {
 
     const matchesTab = tab === "approved"
       ? currentStatus(event) === "Approved"
-      : event.pak === (tab === "pak");
+      : tab === "paid"
+        ? hasPaidOption(event)
+        : event.pak === (tab === "pak");
+
+    const matchesCost = costFilter === "all" ||
+      (
+        costFilter === "paid"
+          ? hasPaidOption(event)
+          : priceType(event) === costFilter
+      );
 
     return (
       matchesTab &&
@@ -1078,10 +1103,7 @@ function render() {
             : platform === "Non-Luma"
         )
       ) &&
-      (
-        costFilter === "all" ||
-        priceType(event) === costFilter
-      )
+      matchesCost
     );
   });
 
@@ -1103,9 +1125,11 @@ function render() {
 
   const tabLabel = tab === "approved"
     ? "All approved events"
-    : tab === "pak"
-      ? "Suggested by Pak"
-      : "Via research";
+    : tab === "paid"
+      ? "All paid events"
+      : tab === "pak"
+        ? "Suggested by Pak"
+        : "Via research";
 
   $("#count").textContent =
     `${rows.length} event${rows.length === 1 ? "" : "s"} · ${tabLabel}`;
