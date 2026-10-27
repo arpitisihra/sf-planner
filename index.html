@@ -65,6 +65,19 @@ p {
   color: var(--muted);
 }
 
+.account-note {
+  color: #72dea6;
+  font-size: 14px;
+  max-width: 850px;
+  margin-top: 14px;
+}
+
+.access-note, .venue-alert {
+  color: var(--accent);
+  font-size: 13px;
+  margin-top: 12px;
+}
+
 .trip {
   text-align: right;
   white-space: nowrap;
@@ -500,6 +513,12 @@ summary {
     <div class="eyebrow">Mochi · Seed round · SF / Bay Area</div>
     <h1>Mochi in San Francisco.</h1>
     <p>Pak’s master event planner — investors, founders & AI builders.</p>
+    <p class="account-note">
+      We have applied to these SF events using a different Luma account
+      attached to your phone number to avoid calendar conflicts with main
+      account. You can login to Luma using your phone number to access all
+      these events.
+    </p>
   </div>
 
   <div class="trip">
@@ -673,7 +692,8 @@ locationKnown, locationSource
 [25,"5–6 Nov","2026-11-05","Daytime; 5 Nov afterparty; times TBC","BoxWorks Dev Summit",0,"https://luma.com/box-dev-summit-2026",2,"Free passes by application","Waiting approval","Waiting approval. Jensen Huang of NVIDIA and other big names speaking. Event has workshops and technical deep dives designed to help you build with Box, AI, and today’s leading AI tools.","","San Francisco Marriott Marquis · 780 Mission St, San Francisco, CA 94103","",true,"https://luma.com/box-dev-summit-2026"],
 [26,"06 Nov","2026-11-06","6–8:30 PM","Startup World Cup Finale Party",1,"https://www.eventbrite.com/e/startup-world-cup-grand-finale-2026-tickets-1987093688714?aff=oddtdtcreator&keep_tld=true",3,"$156","Not submitted","High Value event - Go to their networking party $156. Startup World Cup is a global series of conferences and competitions that bring together the top startups, investors, entrepreneurs and tech CEOs around the world. Top investors like Daymond John from Shark Tank and other big names plus lots of founders and developers","","Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102","",true,"https://www.startupworldcup.io/networking-party"],
 [27,"10 Nov","2026-11-10","8 AM; end TBC","After Tokens",0,"https://luma.com/after-tokens",2,"Free; approval required","Waiting approval","Waiting approval - Event covers how AI businesses track usage, set customer and agent limits, and connect pricing, credits and billing.","","Terra · 511 Harrison St, San Francisco, CA 94105","",true,"https://luma.com/after-tokens"],
-[28,"10–12 Nov","2026-11-10","Daily times TBC","AI Engineer Code Summit",0,"https://ai.engineer/code/2026",1,"Unconfirmed","Not submitted","It's a high value event with a workshop on Oct 10. But there are no details about timing on the website yet, just dates so avoid ambiguity for now. If Pak likes the event, we can keep an eye on this and confirm when timing is announced.","Nothing after 5 PM on 10 Nov; departs that night","Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102","",true,"https://ai.engineer/code/2026"]
+[28,"10–12 Nov","2026-11-10","Daily times TBC","AI Engineer Code Summit",0,"https://ai.engineer/code/2026",1,"Unconfirmed","Not submitted","It's a high value event with a workshop on Oct 10. But there are no details about timing on the website yet, just dates so avoid ambiguity for now. If Pak likes the event, we can keep an eye on this and confirm when timing is announced.","Nothing after 5 PM on 10 Nov; departs that night","Hilton Union Square · 333 O’Farrell St, San Francisco, CA 94102","",true,"https://ai.engineer/code/2026"],
+[29,"28 Oct","2026-10-28","5:00–10:00 PM PDT","PITCHFEST | Startup World Cup | LA Regional #PHFEST26",0,"https://luma.com/worldcup?tk=nbXBYM",2,"Unconfirmed","Approved","Approved as requested. Startup pitch event hosted by Syndicate AI in partnership with Pegasus Tech Ventures. This is the LA Regional in Santa Monica, not the SF grand finale.","","1533 26th St, Santa Monica, CA 90404, USA","",true,"https://luma.com/worldcup"]
 ]
 </script>
 
@@ -1205,6 +1225,18 @@ function render() {
                 : event.note
                   ? `<div class="note">${linkify(event.note)}</div>`
                   : ""
+            }
+
+            ${
+              event.id === 15
+                ? '<div class="access-note">This event is at AWS Builder Loft which requires a separate approval for access. You are approved and it is sent to Pak on pak@btinnolab.com with subject &quot;Registration Confirmed - OSA Conference 2026&quot;.</div>'
+                : ""
+            }
+
+            ${
+              event.id === 29
+                ? '<div class="venue-alert">Outside SF / Bay Area: this event is in Santa Monica, Los Angeles.</div>'
+                : ""
             }
 
             ${locationControl(event)}
